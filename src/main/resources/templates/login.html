@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="styleSheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>ログイン</title>
+</head>
+<body>
+<div class="header-contents">
+    <h1>ログイン</h1>
+</div>
+<div class="main-contents">
+    <form th:action="@{/toLogin}" th:method="post">
+        <div th:if="${param.error}">
+            <div class="alert alert-danger">
+                <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message ?: 'ユーザー情報が存在しません'}"></span>
+            </div>
+        </div>
+        <div class="login">
+            アカウント名
+            <input type="text" name="account">
+        </div>
+        <div class="login">
+            パスワード
+            <input type="text" name="password">
+        </div>
+        <input type="submit" value="ログイン">
+    </form>
+</div>
+</body>
+</html>
