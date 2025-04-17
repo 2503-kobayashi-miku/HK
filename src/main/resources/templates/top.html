@@ -17,6 +17,17 @@
     <a href="/new">
         <button class="new-button" type="button">新規投稿</button>
     </a>
+    <div class="filter">
+        <form method="get">
+            投稿日
+            <input name="start" type="date"/>
+            ～
+            <input name="end" type="date"/>
+            カテゴリー
+            <input name="category"/>
+            <input type="submit" value="絞込"/>
+        </form>
+    </div>
     <div class="message-icon" th:each="message : ${messages}">
         <div class="title">
             件名 : <span th:text="${message.title}"/>

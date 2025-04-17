@@ -20,7 +20,8 @@ public class CommentService {
      * レコード全件取得処理
      */
     public List<UserComment> findAllCommentWithUser() {
-        List<Object[]> results = commentRepository.findAllWithUser();
+        final int LIMIT_NUM = 1000;
+        List<Object[]> results = commentRepository.findAllWithUserByCreatedDateAsc(LIMIT_NUM);
         List<UserComment> comments = setUserComment(results);
         return comments;
     }

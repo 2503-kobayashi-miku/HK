@@ -4,9 +4,11 @@ import com.example.HK.controller.form.MessageForm;
 import com.example.HK.dto.UserMessage;
 import com.example.HK.repository.MessageRepository;
 import com.example.HK.repository.entity.Message;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +19,34 @@ public class MessageService {
     MessageRepository messageRepository;
 
     /*
-     * レコード全件取得処理
+     * レコード絞り込み取得処理
      */
-    public List<UserMessage> findAllMessageWithUser() {
-        List<Object[]> results = messageRepository.findAllWithUser();
-        List<UserMessage> messages = setUserMessage(results);
-        return messages;
+    public List<UserMessage> findMessageWithUserByOrder(LocalDate start, LocalDate end, String category) {
+        final int LIMIT_NUM = 1000;
+        LocalDateTime startDateTime;
+        LocalDateTime endDateTime;
+
+        if (start != null) {
+            startDateTime = start.atStartOfDay();
+        } else {
+            startDateTime = LocalDate.of(2020,1,1).atStartOfDay();
+        }
+
+        if (end != null) {
+            endDateTime = end.plusDays(1).atStartOfDay().minusSeconds(1);
+        } else {
+            endDateTime = LocalDate.of(2101,1,1).atStartOfDay().minusSeconds(1);;
+        }
+
+        if (!StringUtils.isBlank(category)) {
+            List<Object[]> results = messageRepository.findByCreatedDateBetweenAndCategoryOrderByCreatedDateAsc(startDateTime, endDateTime, category, LIMIT_NUM);
+            List<UserMessage> messages = setUserMessage(results);
+            return messages;
+        } else {
+            List<Object[]> results = messageRepository.findByCreatedDateBetweenOrderByCreatedDateAsc(startDateTime, endDateTime, LIMIT_NUM);
+            List<UserMessage> messages = setUserMessage(results);
+            return messages;
+        }
     }
 
     /*
