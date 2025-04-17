@@ -71,4 +71,25 @@ public class HKController {
         mav.addObject("formModel", messageForm);
         return mav;
     }
+
+    /*
+     * 新規投稿処理
+     */
+    @PostMapping("/add")
+    public ModelAndView addMessage(@ModelAttribute("formModel") @Validated MessageForm messageForm,
+                                   BindingResult result,
+                                   RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            List<String> errorMessages = new ArrayList<String>();
+            for (FieldError error : result.getFieldErrors()) {
+                errorMessages.add(error.getDefaultMessage());
+            }
+            redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
+            return new ModelAndView("redirect:/new");
+        }
+        // 投稿をテーブルに格納
+        messageService.saveMessage(messageForm);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+    }
 }

@@ -75,6 +75,28 @@ public class MessageService {
     }
 
     /*
+     * レコード追加
+     */
+    public void saveMessage(MessageForm reqMessage) {
+        Message saveMessage = setMessageEntity(reqMessage);
+        messageRepository.save(saveMessage);
+    }
+
+    /*
+     * リクエストから取得した情報をEntityに設定
+     */
+    private Message setMessageEntity(MessageForm reqReport) {
+        Message message = new Message();
+        message.setId(reqReport.getId());
+        message.setTitle(reqReport.getTitle());
+        message.setText(reqReport.getText());
+        message.setCategory(reqReport.getCategory());
+        message.setUserId(1);
+        //message.setUserId(reqReport.getUserId());
+        return message;
+    }
+
+    /*
      * DBから取得したデータをFormに設定
      */
     private List<MessageForm> setMessageForm(List<Message> results) {
