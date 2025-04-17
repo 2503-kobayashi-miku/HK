@@ -97,6 +97,13 @@ public class MessageService {
     }
 
     /*
+     * レコード削除
+     */
+    public void deleteMessage(Integer id) {
+        messageRepository.deleteById(id);
+    }
+
+    /*
      * DBから取得したデータをFormに設定
      */
     private List<MessageForm> setMessageForm(List<Message> results) {

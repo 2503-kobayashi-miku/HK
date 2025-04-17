@@ -12,10 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -89,6 +86,25 @@ public class HKController {
         }
         // 投稿をテーブルに格納
         messageService.saveMessage(messageForm);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+    }
+
+    /*
+     * 投稿削除処理
+     */
+    @DeleteMapping("/message-delete/{id}")
+    public ModelAndView deleteMessage(@PathVariable Integer id,
+                                      @RequestParam (name = "userId") int userId) {
+        //ログインユーザー情報取得
+        int loginUserId = 1;
+        //int loginUserId
+        //ログインユーザー自信の投稿のみ削除可能
+        if(loginUserId != userId) {
+            return new ModelAndView("redirect:/");
+        }
+        // テーブルから投稿を削除
+        messageService.deleteMessage(id);
         // rootへリダイレクト
         return new ModelAndView("redirect:/");
     }

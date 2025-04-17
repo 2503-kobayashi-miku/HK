@@ -45,6 +45,12 @@
             投稿者 : <span th:text="${message.name}"/>
             <br/>
         </div>
+        <div class="delete-button">
+            <form th:action="@{/message-delete/{id}(id=${message.id})}" th:method="delete">
+                <input type="hidden" name="userId" th:value="${message.userId}"/>
+                <input type="submit" value="削除"/>
+            </form>
+        </div>
         <div class="comment-icon" th:each="comment : ${comments}" th:if="${comment.messageId} == ${message.id}">
             <div class="text">
                 コメント : <span th:text="${comment.text}"/>
