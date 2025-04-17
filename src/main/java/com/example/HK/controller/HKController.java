@@ -2,6 +2,7 @@ package com.example.HK.controller;
 
 import com.example.HK.controller.form.CommentForm;
 import com.example.HK.controller.form.MessageForm;
+import com.example.HK.dto.UserComment;
 import com.example.HK.dto.UserMessage;
 import com.example.HK.service.CommentService;
 import com.example.HK.service.MessageService;
@@ -32,10 +33,14 @@ public class HKController {
         CommentForm commentForm = new CommentForm();
         // 投稿を全件取得(投稿者情報)
         List<UserMessage> messageData = messageService.findAllMessageWithUser();
+        // コメントを全件取得(コメント者情報)
+        List<UserComment> commentData = commentService.findAllCommentWithUser();
         // 画面遷移先を指定
         mav.setViewName("/top");
         // 投稿データオブジェクトを保管
         mav.addObject("messages", messageData);
+        // コメントデータオブジェクトを保管
+        mav.addObject("comments", commentData);
         // 準備した空のcommentFormを保管
         mav.addObject("formModel", commentForm);
         return mav;

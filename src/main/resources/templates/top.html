@@ -34,6 +34,18 @@
             投稿者 : <span th:text="${message.name}"/>
             <br/>
         </div>
+        <div class="comment-icon" th:each="comment : ${comments}" th:if="${comment.messageId} == ${message.id}">
+            <div class="text">
+                コメント : <span th:text="${comment.text}"/>
+            </div>
+            <div class="date">
+                コメント日時 : <span th:text="${#temporals.format(comment.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
+            </div>
+            <div class="name">
+                コメント者 : <span th:text="${comment.name}"/>
+                <br/>
+            </div>
+        </div>
     </div>
 </div>
 </body>
