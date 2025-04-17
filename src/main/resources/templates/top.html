@@ -17,6 +17,24 @@
     <a href="/new">
         <button class="new-button" type="button">新規投稿</button>
     </a>
+    <div class="message-icon" th:each="message : ${messages}">
+        <div class="title">
+            件名 : <span th:text="${message.title}"/>
+        </div>
+        <div class="text">
+            本文 : <span th:text="${message.text}"/>
+        </div>
+        <div class="category">
+            カテゴリー : <span th:text="${message.category}"/>
+        </div>
+        <div class="date">
+            投稿日時 : <span th:text="${#temporals.format(message.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
+        </div>
+        <div class="name">
+            投稿者 : <span th:text="${message.name}"/>
+            <br/>
+        </div>
+    </div>
 </div>
 </body>
 </html>
