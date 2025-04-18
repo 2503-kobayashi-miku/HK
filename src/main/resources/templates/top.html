@@ -13,6 +13,9 @@
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="ログアウト" />
     </form>
+    <a href="/admin">
+        <button class="admin-button" type="button">ユーザー管理</button>
+    </a>
 </div>
 <div class="main-contents">
     <div class="errorMessages" th:each="errorMessage : ${errorMessages}">

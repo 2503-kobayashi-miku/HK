@@ -2,20 +2,16 @@ package com.example.HK.controller;
 
 import com.example.HK.controller.form.CommentForm;
 import com.example.HK.controller.form.MessageForm;
+import com.example.HK.dto.UserBranchDepartment;
 import com.example.HK.dto.UserComment;
 import com.example.HK.dto.UserMessage;
 import com.example.HK.repository.entity.LoginUserDetails;
 import com.example.HK.service.CommentService;
-import com.example.HK.service.CustomUserDetailsService;
 import com.example.HK.service.MessageService;
 import com.example.HK.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -127,14 +123,16 @@ public class HKController {
         return mav;
     }
 
-    // ログアウト処理用のハンドラをDI注入する
-    SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-
-    // ログアウトコントローラー
-    @GetMapping("/logout")
-    public String logout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
-        // ログアウト処理(セッション破棄など)
-        this.logoutHandler.logout(request, response, authentication);
-        // ログアウト後はログインページにリダイレクトする
-        return "redirect:/login";
-    }}
+    /*
+     * ユーザー管理画面表示処理
+     */
+    @GetMapping("/admin")
+    public ModelAndView adminView() {
+        ModelAndView mav = new ModelAndView();
+        // 画面遷移先を指定
+        mav.setViewName("/admin");
+        List<UserBranchDepartment> userDate = userService.findUserWithBranchWithDepartment();
+        mav.addObject("users", userDate);
+        return mav;
+    }
+}
