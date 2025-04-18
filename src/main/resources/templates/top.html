@@ -10,6 +10,9 @@
 <body>
 <div class="header-contents">
     <h1>掲示板</h1>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="ログアウト" />
+    </form>
 </div>
 <div class="main-contents">
     <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
