@@ -48,7 +48,6 @@
         </div>
         <div class="delete-button">
             <form th:action="@{/message-delete/{id}(id=${message.id})}" th:if="${message.userId} == ${loginUserId}" th:method="delete">
-                <input type="hidden" name="userId" th:value="${message.userId}"/>
                 <input type="hidden" name="deleteContent" value="投稿件名"/>
                 <input type="hidden" name="deleteInfo" th:value="${message.title}"/>
                 <input class="delete" type="submit" value="削除"/>

@@ -110,8 +110,7 @@ public class HKController {
      * 投稿削除処理
      */
     @DeleteMapping("/message-delete/{id}")
-    public ModelAndView deleteMessage(@PathVariable Integer id,
-                                      @RequestParam (name = "userId") int userId) {
+    public ModelAndView deleteMessage(@PathVariable Integer id) {
         // テーブルから投稿を削除
         messageService.deleteMessage(id);
         // rootへリダイレクト
