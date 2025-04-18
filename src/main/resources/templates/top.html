@@ -68,6 +68,17 @@
                 <br/>
             </div>
         </div>
+        <form method="post" th:action="@{/comment/add}" th:object="${formModel}">
+            <div class="form-area">
+                <label>コメント内容</label>
+                <div class="errorMessages" th:each="errorMessage : ${commentErrorMessages}" th:if="${formMessageId} == ${message.id}">
+                    <span th:text="${errorMessage}"></span>
+                </div>
+                <input type="hidden" name="messageId" th:value="${message.id}"/>
+                <textarea class="tweet-box" th:field="*{text}" size="20" maxlength="200"></textarea><br/>
+                <input type="submit" value="投稿"/>
+            </div>
+        </form>
     </div>
 </div>
 </body>
