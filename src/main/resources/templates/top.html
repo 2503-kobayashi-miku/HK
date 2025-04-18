@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:src="@{/js/delete.js}"></script>
     <title>TOP</title>
 </head>
 <body>
@@ -46,9 +47,11 @@
             <br/>
         </div>
         <div class="delete-button">
-            <form th:action="@{/message-delete/{id}(id=${message.id})}" th:method="delete">
+            <form th:action="@{/message-delete/{id}(id=${message.id})}" th:if="${message.userId} == ${loginUserId}" th:method="delete">
                 <input type="hidden" name="userId" th:value="${message.userId}"/>
-                <input type="submit" value="削除"/>
+                <input type="hidden" name="deleteContent" value="投稿件名"/>
+                <input type="hidden" name="deleteInfo" th:value="${message.title}"/>
+                <input class="delete" type="submit" value="削除"/>
             </form>
         </div>
         <div class="comment-icon" th:each="comment : ${comments}" th:if="${comment.messageId} == ${message.id}">

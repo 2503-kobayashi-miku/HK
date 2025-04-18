@@ -45,7 +45,8 @@ public class HKController {
     @GetMapping
     public ModelAndView top(@RequestParam(name = "start", required = false) LocalDate start,
                             @RequestParam (name = "end", required = false) LocalDate end,
-                            @RequestParam (name = "category", required = false) String category) {
+                            @RequestParam (name = "category", required = false) String category,
+                            @AuthenticationPrincipal LoginUserDetails loginUser) {
         ModelAndView mav = new ModelAndView();
         // commentForm用の空のentityを準備
         CommentForm commentForm = new CommentForm();
@@ -55,6 +56,8 @@ public class HKController {
         List<UserComment> commentData = commentService.findAllCommentWithUser();
         // 画面遷移先を指定
         mav.setViewName("/top");
+        // ログインユーザーデータオブジェクトを保管
+        mav.addObject("loginUserId", loginUser.getUserId());
         // 投稿データオブジェクトを保管
         mav.addObject("messages", messageData);
         // コメントデータオブジェクトを保管
