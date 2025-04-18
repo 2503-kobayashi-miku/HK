@@ -13,7 +13,7 @@
   <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
     <span th:text="${errorMessage}"></span>
   </div>
-  <form method="post" action="/add" th:object="${formModel}">
+  <form method="post" th:action="@{/add}" th:object="${formModel}">
     <div class="form-area">
       件名<br/>
       <input th:field="*{title}"/><br/>

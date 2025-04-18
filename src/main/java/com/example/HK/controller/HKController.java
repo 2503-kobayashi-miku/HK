@@ -4,7 +4,9 @@ import com.example.HK.controller.form.CommentForm;
 import com.example.HK.controller.form.MessageForm;
 import com.example.HK.dto.UserComment;
 import com.example.HK.dto.UserMessage;
+import com.example.HK.repository.entity.LoginUserDetails;
 import com.example.HK.service.CommentService;
+import com.example.HK.service.CustomUserDetailsService;
 import com.example.HK.service.MessageService;
 import com.example.HK.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -81,6 +84,7 @@ public class HKController {
      */
     @PostMapping("/add")
     public ModelAndView addMessage(@ModelAttribute("formModel") @Validated MessageForm messageForm,
+                                   @AuthenticationPrincipal LoginUserDetails loginUser,
                                    BindingResult result,
                                    RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
@@ -91,6 +95,8 @@ public class HKController {
             redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
             return new ModelAndView("redirect:/new");
         }
+        // ログインユーザーIDを投稿に格納
+        messageForm.setUserId(loginUser.getUserId());
         // 投稿をテーブルに格納
         messageService.saveMessage(messageForm);
         // rootへリダイレクト
@@ -103,13 +109,6 @@ public class HKController {
     @DeleteMapping("/message-delete/{id}")
     public ModelAndView deleteMessage(@PathVariable Integer id,
                                       @RequestParam (name = "userId") int userId) {
-        //ログインユーザー情報取得
-        int loginUserId = 1;
-        //int loginUserId
-        //ログインユーザー自信の投稿のみ削除可能
-        if(loginUserId != userId) {
-            return new ModelAndView("redirect:/");
-        }
         // テーブルから投稿を削除
         messageService.deleteMessage(id);
         // rootへリダイレクト

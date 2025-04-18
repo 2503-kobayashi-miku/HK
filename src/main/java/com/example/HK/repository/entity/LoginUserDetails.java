@@ -21,6 +21,8 @@ public class LoginUserDetails implements UserDetails {
         return authorities;
     }
 
+    public int getUserId(){return user.getId(); }
+
     public String getAccount(){
         return user.getAccount();
     }

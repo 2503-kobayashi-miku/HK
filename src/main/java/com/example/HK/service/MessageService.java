@@ -91,8 +91,7 @@ public class MessageService {
         message.setTitle(reqReport.getTitle());
         message.setText(reqReport.getText());
         message.setCategory(reqReport.getCategory());
-        message.setUserId(1);
-        //message.setUserId(reqReport.getUserId());
+        message.setUserId(reqReport.getUserId());
         return message;
     }
 
