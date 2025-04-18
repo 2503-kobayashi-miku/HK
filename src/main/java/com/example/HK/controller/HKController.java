@@ -139,6 +139,17 @@ public class HKController {
     }
 
     /*
+     * コメント削除処理
+     */
+    @DeleteMapping("/comment-delete/{id}")
+    public ModelAndView deleteComment(@PathVariable Integer id) {
+        // テーブルからコメントを削除
+        commentService.deleteComment(id);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+    }
+
+    /*
      * ログイン画面表示処理
      */
     @GetMapping("/toLogin")
