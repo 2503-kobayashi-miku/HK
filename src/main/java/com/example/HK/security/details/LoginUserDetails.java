@@ -1,5 +1,6 @@
-package com.example.HK.repository.entity;
+package com.example.HK.security.details;
 
+import com.example.HK.repository.entity.User;
 import jakarta.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -5,7 +5,7 @@ import com.example.HK.controller.form.MessageForm;
 import com.example.HK.dto.UserBranchDepartment;
 import com.example.HK.dto.UserComment;
 import com.example.HK.dto.UserMessage;
-import com.example.HK.repository.entity.LoginUserDetails;
+import com.example.HK.security.details.LoginUserDetails;
 import com.example.HK.service.CommentService;
 import com.example.HK.service.MessageService;
 import com.example.HK.service.UserService;

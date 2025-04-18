@@ -1,4 +1,4 @@
-package com.example.HK.config;
+package com.example.HK.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

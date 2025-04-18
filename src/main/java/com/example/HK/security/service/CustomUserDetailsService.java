@@ -1,7 +1,7 @@
-package com.example.HK.service;
+package com.example.HK.security.service;
 
 import com.example.HK.repository.UserRepository;
-import com.example.HK.repository.entity.LoginUserDetails;
+import com.example.HK.security.details.LoginUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
