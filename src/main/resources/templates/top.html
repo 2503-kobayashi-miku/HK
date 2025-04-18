@@ -27,7 +27,7 @@
             <input name="start" type="date"/>
             ～
             <input name="end" type="date"/>
-            カテゴリー
+            カテゴリ
             <input name="category"/>
             <input type="submit" value="絞込"/>
         </form>
@@ -40,7 +40,7 @@
             本文 : <span th:text="${message.text}"/>
         </div>
         <div class="category">
-            カテゴリー : <span th:text="${message.category}"/>
+            カテゴリ : <span th:text="${message.category}"/>
         </div>
         <div class="date">
             投稿日時 : <span th:text="${#temporals.format(message.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>

@@ -87,11 +87,11 @@ public class HKController {
      */
     @PostMapping("/add")
     public ModelAndView addMessage(@ModelAttribute("formModel") @Validated MessageForm messageForm,
-                                   @AuthenticationPrincipal LoginUserDetails loginUser,
                                    BindingResult result,
+                                   @AuthenticationPrincipal LoginUserDetails loginUser,
                                    RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            List<String> errorMessages = new ArrayList<String>();
+            List<String> errorMessages = new ArrayList<>();
             for (FieldError error : result.getFieldErrors()) {
                 errorMessages.add(error.getDefaultMessage());
             }
