@@ -112,6 +112,32 @@ public class HKController {
         // rootへリダイレクト
         return new ModelAndView("redirect:/");
     }
+
+    /*
+     * 新規コメント処理
+     */
+    @PostMapping("/comment/add")
+    public ModelAndView addText(@ModelAttribute("formModel") @Validated CommentForm commentForm,
+                                BindingResult result,
+                                @AuthenticationPrincipal LoginUserDetails loginUser,
+                                RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            List<String> errorMessages = new ArrayList<>();
+            for (FieldError error : result.getFieldErrors()) {
+                errorMessages.add(error.getDefaultMessage());
+            }
+            redirectAttributes.addFlashAttribute("formMessageId", commentForm.getMessageId());
+            redirectAttributes.addFlashAttribute("commentErrorMessages", errorMessages);
+            return new ModelAndView("redirect:/");
+        }
+        // ログインユーザーIDをコメントに格納
+        commentForm.setUserId(loginUser.getUserId());
+        // コメントをテーブルに格納
+        commentService.saveComment(commentForm);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+    }
+
     /*
      * ログイン画面表示処理
      */
