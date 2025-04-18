@@ -32,7 +32,10 @@ public class SecurityConfig {
                         //ログイン無しでアクセスOK
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/css/*").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated())
+                //ログアウト処理
+                .logout((logout) -> logout
+                        .logoutSuccessUrl("/toLogin"));
         return http.build();
     }
 
