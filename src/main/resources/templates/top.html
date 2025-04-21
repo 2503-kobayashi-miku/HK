@@ -71,6 +71,13 @@
                 コメント者 : <span th:text="${comment.name}"/>
                 <br/>
             </div>
+            <div class="delete-button">
+                <form th:action="@{/comment-delete/{id}(id=${comment.id})}" th:if="${comment.userId} == ${loginUserId}" th:method="delete">
+                    <input type="hidden" name="deleteContent" value="コメント"/>
+                    <input type="hidden" name="deleteInfo" th:value="${comment.text}"/>
+                    <input class="delete" type="submit" value="削除"/>
+                </form>
+            </div>
         </div>
         <form method="post" th:action="@{/comment/add}" th:object="${formModel}">
             <div class="form-area">
