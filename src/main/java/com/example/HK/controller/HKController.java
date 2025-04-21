@@ -234,4 +234,4 @@ public class HKController {
         // rootへリダイレクト
         return new ModelAndView("redirect:/admin");
     }
-}}
+}

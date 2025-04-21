@@ -46,14 +46,14 @@ public class UserService {
     }
 
     /*
-     * ƒAƒJƒEƒ“ƒgd•¡ƒ`ƒFƒbƒN(“o˜^)
+     * ã‚¢ã‚«ã‚¦ãƒ³ãƒˆé‡è¤‡ãƒã‚§ãƒƒã‚¯(ç™»éŒ²)
      */
     public boolean existsUserByAccount(String account) {
         return userRepository.existsByAccount(account);
     }
 
     /*
-     * ƒŒƒR[ƒh’Ç‰Á
+     * ãƒ¬ã‚³ãƒ¼ãƒ‰è¿½åŠ 
      */
     public void saveUser(UserForm reqUser) {
         User saveUser = setUserEntity(reqUser);
@@ -61,7 +61,7 @@ public class UserService {
     }
 
     /*
-     * ƒŠƒNƒGƒXƒg‚©‚çæ“¾‚µ‚½î•ñ‚ğEntity‚Éİ’è
+     * ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‹ã‚‰å–å¾—ã—ãŸæƒ…å ±ã‚’Entityã«è¨­å®š
      */
     private User setUserEntity(UserForm reqUser) {
         User user = new User();
@@ -74,4 +74,4 @@ public class UserService {
         user.setIsStopped(reqUser.getIsStopped());
         return user;
     }
-}}
+}
