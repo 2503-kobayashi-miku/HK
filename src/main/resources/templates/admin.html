@@ -4,13 +4,41 @@
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script th:src="@{/js/delete.js}"></script>
+    <script th:src="@{/js/updateIsStopped.js}"></script>
     <title>ユーザー管理</title>
 </head>
 <body>
 <div class="header-contents">
-    <h1>掲示板</h1>
+    <h1>ユーザー管理</h1>
+    <a th:href="@{/}">ホーム</a>
 </div>
-
+<table border="1" style="border-collapse: collapse">
+    <tr>
+        <th>アカウント名</th>
+        <th>氏名</th>
+        <th>ユーザー停止状態</th>
+        <th>支社名</th>
+        <th>部署名</th>
+    </tr>
+        <tr class="user-icon" th:each="user : ${users}">
+            <td th:text="${user.account}"></td>
+            <td th:text="${user.name}"></td>
+            <td>
+                <div class="update-isStopped">
+                    <form th:action="@{/update-isStopped/{id}(id=${user.id})}" th:method="put">
+                        <select name="isStopped">
+                            <option value="0" th:selected="${user.isStopped == 0}">稼働</option>
+                            <option value="1" th:selected="${user.isStopped == 1}">停止</option>
+                        </select>
+                        <input name="userName" th:value="${user.name}" type="hidden">
+                        <input class="update-isStopped-button" type="submit" value="変更">
+                    </form>
+                </div>
+            </td>
+            <td th:text="${user.branchName}"></td>
+            <td th:text="${user.departmentName}"></td>
+        </tr>
+    </div>
+</table>
 </body>
 </html>

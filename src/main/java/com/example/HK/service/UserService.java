@@ -4,6 +4,7 @@ import com.example.HK.dto.UserBranchDepartment;
 import com.example.HK.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +36,9 @@ public class UserService {
             users.add(user);
         }
         return users;
+    }
+    @Transactional
+    public void saveIsStopped(Integer id, short isStopped) {
+        userRepository.saveStatus(isStopped, id);
     }
 }
