@@ -216,18 +216,21 @@ public class HKController {
     public ModelAndView addUser(@ModelAttribute("formModel") @Validated UserForm userForm,
                                 BindingResult result,
                                 RedirectAttributes redirectAttributes) {
+        List<String> errorMessages = new ArrayList<>();
         if (result.hasErrors()) {
-            List<String> errorMessages = new ArrayList<>();
             for (FieldError error : result.getFieldErrors()) {
                 errorMessages.add(error.getDefaultMessage());
             }
-            redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
-            redirectAttributes.addFlashAttribute("formModel", userForm);
-            return new ModelAndView("redirect:/signup");
         }
+        // パスワードと確認用パスワードの一致チェック
+        if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
+            errorMessages.add("パスワードと確認用パスワードが一致しません");
+        }
+        // アカウント重複チェック
         if (userService.existsUserByAccount(userForm.getAccount())) {
-            List<String> errorMessages = new ArrayList<>();
             errorMessages.add("アカウントが重複しています");
+        }
+        if(!errorMessages.isEmpty()){
             redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
             redirectAttributes.addFlashAttribute("formModel", userForm);
             return new ModelAndView("redirect:/signup");

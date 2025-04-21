@@ -22,13 +22,6 @@ public class UserForm {
     @Pattern(regexp = "^[!-~]{6,20}$", message = "パスワードは半角文字かつ6文字以上20文字以下で入力してください")
     private String password;
     private String confirmPassword;
-    @AssertTrue(message = "パスワードと確認用パスワードが一致しません")
-    public boolean passwordConfirm() {
-        if (password == null || confirmPassword == null) {
-            return false;
-        }
-        return password.equals(confirmPassword);
-    }
     @NotBlank(message = "氏名を入力してください")
     @Length(max = 10,  message = "氏名は10文字以下で入力してください")
     private String name;
