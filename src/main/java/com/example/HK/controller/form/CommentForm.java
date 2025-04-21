@@ -13,7 +13,7 @@ public class CommentForm {
 
     private int id;
     @NotBlank(message = "メッセージを入力してください")
-    @Length(max= 500, message = "500文字以内で入力してください")
+    @Length(max = 500, message = "500文字以内で入力してください")
     private String text;
     private int userId;
     private int messageId;

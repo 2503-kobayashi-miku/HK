@@ -1,14 +1,11 @@
 package com.example.HK.controller;
 
-import com.example.HK.controller.form.CommentForm;
-import com.example.HK.controller.form.MessageForm;
+import com.example.HK.controller.form.*;
 import com.example.HK.dto.UserBranchDepartment;
 import com.example.HK.dto.UserComment;
 import com.example.HK.dto.UserMessage;
 import com.example.HK.security.details.LoginUserDetails;
-import com.example.HK.service.CommentService;
-import com.example.HK.service.MessageService;
-import com.example.HK.service.UserService;
+import com.example.HK.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,6 +29,10 @@ public class HKController {
     MessageService messageService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    BranchService branchService;
+    @Autowired
+    DepartmentService departmentService;
     @Autowired
     HttpSession session;
 
@@ -81,7 +82,7 @@ public class HKController {
     /*
      * 新規投稿処理
      */
-    @PostMapping("/add")
+    @PostMapping("/message/add")
     public ModelAndView addMessage(@ModelAttribute("formModel") @Validated MessageForm messageForm,
                                    BindingResult result,
                                    @AuthenticationPrincipal LoginUserDetails loginUser,
@@ -105,7 +106,7 @@ public class HKController {
     /*
      * 投稿削除処理
      */
-    @DeleteMapping("/message-delete/{id}")
+    @DeleteMapping("/message/delete/{id}")
     public ModelAndView deleteMessage(@PathVariable Integer id) {
         // テーブルから投稿を削除
         messageService.deleteMessage(id);
@@ -141,7 +142,7 @@ public class HKController {
     /*
      * コメント削除処理
      */
-    @DeleteMapping("/comment-delete/{id}")
+    @DeleteMapping("/comment/delete/{id}")
     public ModelAndView deleteComment(@PathVariable Integer id) {
         // テーブルからコメントを削除
         commentService.deleteComment(id);
@@ -171,5 +172,56 @@ public class HKController {
         List<UserBranchDepartment> userDate = userService.findUserWithBranchWithDepartment();
         mav.addObject("users", userDate);
         return mav;
+    }
+
+    /*
+     * ユーザー登録画面表示処理
+     */
+    @GetMapping("/signup")
+    public ModelAndView signupView() {
+        ModelAndView mav = new ModelAndView();
+        // form用の空のentityを準備
+        UserForm userForm = new UserForm();
+        // 支社情報を全件取得
+        List<BranchForm> branchDate = branchService.findAllBranch();
+        // 部署情報を全件取得
+        List<DepartmentForm> departmentDate = departmentService.findAllDepartment();
+        // 画面遷移先を指定
+        mav.setViewName("/signup");
+        //  支社データオブジェクトを保管
+        mav.addObject("branches", branchDate);
+        //  部署データオブジェクトを保管
+        mav.addObject("departments", departmentDate);
+        // 準備した空のFormを保管
+        mav.addObject("formModel", userForm);
+        return mav;
+    }
+
+    /*
+     * ユーザ登録処理
+     */
+    @PostMapping("/user/add")
+    public ModelAndView addUser(@ModelAttribute("formModel") @Validated UserForm userForm,
+                                   BindingResult result,
+                                   @AuthenticationPrincipal LoginUserDetails loginUser,
+                                   RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            List<String> errorMessages = new ArrayList<>();
+            for (FieldError error : result.getFieldErrors()) {
+                errorMessages.add(error.getDefaultMessage());
+            }
+            redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
+            return new ModelAndView("redirect:/signup");
+        }
+        if (userService.existsUserByAccount(userForm.getAccount())) {
+            List<String> errorMessages = new ArrayList<>();
+            errorMessages.add("アカウントが重複しています");
+            redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
+            return new ModelAndView("redirect:/signup");
+        }
+        // ユーザをテーブルに格納
+        userService.saveUser(userForm);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/admin");
     }
 }

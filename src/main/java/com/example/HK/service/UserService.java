@@ -1,7 +1,9 @@
 package com.example.HK.service;
 
+import com.example.HK.controller.form.UserForm;
 import com.example.HK.dto.UserBranchDepartment;
 import com.example.HK.repository.UserRepository;
+import com.example.HK.repository.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +37,35 @@ public class UserService {
             users.add(user);
         }
         return users;
+    }
+
+    /*
+     * アカウント重複チェック(登録)
+     */
+    public boolean existsUserByAccount(String account) {
+        return userRepository.existsByAccount(account);
+    }
+
+    /*
+     * レコード追加
+     */
+    public void saveUser(UserForm reqUser) {
+        User saveUser = setUserEntity(reqUser);
+        userRepository.save(saveUser);
+    }
+
+    /*
+     * リクエストから取得した情報をEntityに設定
+     */
+    private User setUserEntity(UserForm reqUser) {
+        User user = new User();
+        user.setId(reqUser.getId());
+        user.setAccount(reqUser.getAccount());
+        user.setPassword(reqUser.getPassword());
+        user.setName(reqUser.getName());
+        user.setBranchId(reqUser.getBranchId());
+        user.setDepartmentId(reqUser.getDepartmentId());
+        user.setIsStopped(reqUser.getIsStopped());
+        return user;
     }
 }

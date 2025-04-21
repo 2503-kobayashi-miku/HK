@@ -16,4 +16,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u.id, u.account, u.name, u.branchId, u.departmentId, u.isStopped, b.name, d.name FROM User u " +
             "INNER JOIN Branch b ON u.branchId = b.id INNER JOIN Department d ON u.departmentId = d.id")
     public List<Object[]> findAllUser();
+    public boolean existsByAccount(String account);
 }
