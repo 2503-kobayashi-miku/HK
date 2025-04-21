@@ -23,4 +23,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("UPDATE User u SET u.isStopped = :isStopped, u.updatedDate = CURRENT_TIMESTAMP WHERE u.id = :id")
     public void saveStatus(@Param("isStopped")short isStopped, @Param("id")Integer id);
 
-    public boolean existsByAccount(String account);}
+    public boolean existsByAccount(String account);
+}

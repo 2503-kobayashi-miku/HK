@@ -188,10 +188,12 @@ public class HKController {
      * ユーザー登録画面表示処理
      */
     @GetMapping("/signup")
-    public ModelAndView signupView() {
+    public ModelAndView signupView(@ModelAttribute("formModel") UserForm userForm) {
         ModelAndView mav = new ModelAndView();
-        // form用の空のentityを準備
-        UserForm userForm = new UserForm();
+        if(userForm == null) {
+            // form用の空のentityを準備
+            userForm = new UserForm();
+        }
         // 支社情報を全件取得
         List<BranchForm> branchDate = branchService.findAllBranch();
         // 部署情報を全件取得
@@ -202,7 +204,7 @@ public class HKController {
         mav.addObject("branches", branchDate);
         //  部署データオブジェクトを保管
         mav.addObject("departments", departmentDate);
-        // 準備した空のFormを保管
+        // 準備したFormを保管
         mav.addObject("formModel", userForm);
         return mav;
     }
@@ -212,21 +214,22 @@ public class HKController {
      */
     @PostMapping("/user/add")
     public ModelAndView addUser(@ModelAttribute("formModel") @Validated UserForm userForm,
-                                   BindingResult result,
-                                   @AuthenticationPrincipal LoginUserDetails loginUser,
-                                   RedirectAttributes redirectAttributes) {
+                                BindingResult result,
+                                RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             List<String> errorMessages = new ArrayList<>();
             for (FieldError error : result.getFieldErrors()) {
                 errorMessages.add(error.getDefaultMessage());
             }
             redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
+            redirectAttributes.addFlashAttribute("formModel", userForm);
             return new ModelAndView("redirect:/signup");
         }
         if (userService.existsUserByAccount(userForm.getAccount())) {
             List<String> errorMessages = new ArrayList<>();
             errorMessages.add("アカウントが重複しています");
             redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
+            redirectAttributes.addFlashAttribute("formModel", userForm);
             return new ModelAndView("redirect:/signup");
         }
         // ユーザをテーブルに格納
