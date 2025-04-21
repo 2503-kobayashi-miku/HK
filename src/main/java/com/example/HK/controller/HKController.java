@@ -175,6 +175,16 @@ public class HKController {
     }
 
     /*
+     * ユーザー復活・停止処理
+     */
+    @PutMapping("/update-isStopped/{id}")
+    public ModelAndView updateStatus(@PathVariable Integer id,
+                                     @ModelAttribute("isStopped") short isStopped) {
+        userService.saveIsStopped(id, isStopped);
+        return new ModelAndView("redirect:/admin");
+    }
+
+    /*
      * ユーザー登録画面表示処理
      */
     @GetMapping("/signup")
@@ -224,4 +234,4 @@ public class HKController {
         // rootへリダイレクト
         return new ModelAndView("redirect:/admin");
     }
-}
+}}

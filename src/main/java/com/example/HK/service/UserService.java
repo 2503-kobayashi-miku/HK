@@ -6,6 +6,7 @@ import com.example.HK.repository.UserRepository;
 import com.example.HK.repository.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +40,20 @@ public class UserService {
         return users;
     }
 
+    @Transactional
+    public void saveIsStopped(Integer id, short isStopped) {
+        userRepository.saveStatus(isStopped, id);
+    }
+
     /*
-     * ã‚¢ã‚«ã‚¦ãƒ³ãƒˆé‡è¤‡ãƒã‚§ãƒƒã‚¯(ç™»éŒ²)
+     * ƒAƒJƒEƒ“ƒgd•¡ƒ`ƒFƒbƒN(“o˜^)
      */
     public boolean existsUserByAccount(String account) {
         return userRepository.existsByAccount(account);
     }
 
     /*
-     * ãƒ¬ã‚³ãƒ¼ãƒ‰è¿½åŠ 
+     * ƒŒƒR[ƒh’Ç‰Á
      */
     public void saveUser(UserForm reqUser) {
         User saveUser = setUserEntity(reqUser);
@@ -55,7 +61,7 @@ public class UserService {
     }
 
     /*
-     * ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‹ã‚‰å–å¾—ã—ãŸæƒ…å ±ã‚’Entityã«è¨­å®š
+     * ƒŠƒNƒGƒXƒg‚©‚çæ“¾‚µ‚½î•ñ‚ğEntity‚Éİ’è
      */
     private User setUserEntity(UserForm reqUser) {
         User user = new User();
@@ -68,4 +74,4 @@ public class UserService {
         user.setIsStopped(reqUser.getIsStopped());
         return user;
     }
-}
+}}
