@@ -1,7 +1,8 @@
 package com.example.HK.security.config;
 
-import com.example.HK.security.authentication.CustomAuthenticationEntryPoint;
-import com.example.HK.security.authentication.CustomAuthenticationFailureHandler;
+import com.example.HK.security.handler.CustomAccessDeniedHandler;
+import com.example.HK.security.handler.CustomAuthenticationEntryPoint;
+import com.example.HK.security.handler.CustomAuthenticationFailureHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,14 +29,17 @@ public class SecurityConfig {
                         .failureHandler(failureHandler) // カスタムハンドラーを設定
                         .defaultSuccessUrl("/") // 認証成功時のデフォルトの遷移先
                         .permitAll())
+                //例外処理
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                        .accessDeniedHandler(new CustomAccessDeniedHandler()))
                 // リクエストの許可設定
                 .authorizeHttpRequests(authz -> authz
                         // index.html の参照権限
                         //ログイン無しでアクセスOK
                         .requestMatchers("/toLogin").permitAll()
                         .requestMatchers("/css/*").permitAll()
+                        .requestMatchers("/admin", "/update-isStopped/{id}", "/signup", "/user/*").hasRole("1")
                         .anyRequest().authenticated())
                 //ログアウト処理
                 .logout((logout) -> logout

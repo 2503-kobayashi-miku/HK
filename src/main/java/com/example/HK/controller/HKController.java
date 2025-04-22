@@ -47,7 +47,14 @@ public class HKController {
     public ModelAndView top(@RequestParam(name = "start", required = false) LocalDate start,
                             @RequestParam(name = "end", required = false) LocalDate end,
                             @RequestParam(name = "category", required = false) String category,
-                            @AuthenticationPrincipal LoginUserDetails loginUser) {
+                            @AuthenticationPrincipal LoginUserDetails loginUser,
+                            RedirectAttributes redirectAttributes) {
+        if (session.getAttribute("errorMessages") != null) {
+            redirectAttributes.addFlashAttribute("errorMessages", session.getAttribute("errorMessages"));
+            //セッションを削除
+            session.removeAttribute("errorMessages");
+            return new ModelAndView("redirect:/");
+        }
         ModelAndView mav = new ModelAndView();
         // commentForm用の空のentityを準備
         CommentForm commentForm = new CommentForm();
