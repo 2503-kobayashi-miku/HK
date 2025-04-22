@@ -85,13 +85,13 @@ public class MessageService {
     /*
      * リクエストから取得した情報をEntityに設定
      */
-    private Message setMessageEntity(MessageForm reqReport) {
+    private Message setMessageEntity(MessageForm reqMessage) {
         Message message = new Message();
-        message.setId(reqReport.getId());
-        message.setTitle(reqReport.getTitle());
-        message.setText(reqReport.getText());
-        message.setCategory(reqReport.getCategory());
-        message.setUserId(reqReport.getUserId());
+        message.setId(reqMessage.getId());
+        message.setTitle(reqMessage.getTitle());
+        message.setText(reqMessage.getText());
+        message.setCategory(reqMessage.getCategory());
+        message.setUserId(reqMessage.getUserId());
         return message;
     }
 

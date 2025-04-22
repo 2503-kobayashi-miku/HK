@@ -11,7 +11,7 @@
 <div class="header-contents">
     <h1>掲示板</h1>
     <form th:action="@{/logout}" method="post">
-        <input type="submit" value="ログアウト"/>
+        <input type="submit" value="ログアウト" />
     </form>
     <a href="/admin">
         <button class="admin-button" type="button">ユーザー管理</button>
@@ -53,8 +53,7 @@
             <br/>
         </div>
         <div class="delete-button">
-            <form th:action="@{/message-delete/{id}(id=${message.id})}" th:if="${message.userId} == ${loginUserId}"
-                  th:method="delete">
+            <form th:action="@{/message/delete/{id}(id=${message.id})}" th:if="${message.userId} == ${loginUserId}" th:method="delete">
                 <input type="hidden" name="deleteContent" value="投稿件名"/>
                 <input type="hidden" name="deleteInfo" th:value="${message.title}"/>
                 <input class="delete" type="submit" value="削除"/>
@@ -72,7 +71,7 @@
                 <br/>
             </div>
             <div class="delete-button">
-                <form th:action="@{/comment-delete/{id}(id=${comment.id})}" th:if="${comment.userId} == ${loginUserId}" th:method="delete">
+                <form th:action="@{/comment/delete/{id}(id=${comment.id})}" th:if="${comment.userId} == ${loginUserId}" th:method="delete">
                     <input type="hidden" name="deleteContent" value="コメント"/>
                     <input type="hidden" name="deleteInfo" th:value="${comment.text}"/>
                     <input class="delete" type="submit" value="削除"/>
@@ -82,8 +81,7 @@
         <form method="post" th:action="@{/comment/add}" th:object="${formModel}">
             <div class="form-area">
                 <label>コメント内容</label>
-                <div class="errorMessages" th:each="errorMessage : ${commentErrorMessages}"
-                     th:if="${formMessageId} == ${message.id}">
+                <div class="errorMessages" th:each="errorMessage : ${commentErrorMessages}" th:if="${formMessageId} == ${message.id}">
                     <span th:text="${errorMessage}"></span>
                 </div>
                 <input type="hidden" name="messageId" th:value="${message.id}"/>
