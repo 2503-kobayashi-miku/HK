@@ -5,6 +5,7 @@ import com.example.HK.dto.UserBranchDepartment;
 import com.example.HK.repository.UserRepository;
 import com.example.HK.repository.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public List<UserBranchDepartment> findUserWithBranchWithDepartment() {
         List<Object[]> results = userRepository.findAllUser();
@@ -74,7 +77,7 @@ public class UserService {
         User user = new User();
         user.setId(reqUser.getId());
         user.setAccount(reqUser.getAccount());
-        user.setPassword(reqUser.getPassword());
+        user.setPassword(passwordEncoder.encode(reqUser.getPassword()));
         user.setName(reqUser.getName());
         user.setBranchId(reqUser.getBranchId());
         user.setDepartmentId(reqUser.getDepartmentId());
