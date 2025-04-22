@@ -6,6 +6,7 @@ import com.example.HK.dto.UserComment;
 import com.example.HK.dto.UserMessage;
 import com.example.HK.security.details.LoginUserDetails;
 import com.example.HK.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

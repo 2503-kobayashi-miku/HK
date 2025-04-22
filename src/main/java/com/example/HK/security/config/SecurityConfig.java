@@ -1,6 +1,7 @@
 package com.example.HK.security.config;
 
-import com.example.HK.security.CustomAuthenticationFailureHandler;
+import com.example.HK.security.authentication.CustomAuthenticationEntryPoint;
+import com.example.HK.security.authentication.CustomAuthenticationFailureHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,11 +29,13 @@ public class SecurityConfig {
                         .failureHandler(failureHandler) // カスタムハンドラーを設定
                         .defaultSuccessUrl("/") // 認証成功時のデフォルトの遷移先
                         .permitAll())
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 // リクエストの許可設定
                 .authorizeHttpRequests(authz -> authz
                         // index.html の参照権限
                         //ログイン無しでアクセスOK
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/toLogin").permitAll()
                         .requestMatchers("/css/*").permitAll()
                         .anyRequest().authenticated())
                 //ログアウト処理
