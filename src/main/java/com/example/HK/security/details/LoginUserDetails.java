@@ -61,6 +61,6 @@ public class LoginUserDetails implements UserDetails {
     // アカウントが有効かを示す
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.user.getIsStopped() == 0;
     }
 }
