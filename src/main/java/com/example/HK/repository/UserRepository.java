@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public void saveStatus(@Param("isStopped")short isStopped, @Param("id")Integer id);
 
     public boolean existsByAccount(String account);
+
+    public boolean existsByAccountAndIdNot(String account, int id);
 }

@@ -53,6 +53,13 @@ public class UserService {
     }
 
     /*
+     * アカウント重複チェック(登録)
+     */
+    public boolean existsUserByAccountAndIdNot(String account, int id) {
+        return userRepository.existsByAccountAndIdNot(account, id);
+    }
+
+    /*
      * レコード追加
      */
     public void saveUser(UserForm reqUser) {
@@ -73,5 +80,42 @@ public class UserService {
         user.setDepartmentId(reqUser.getDepartmentId());
         user.setIsStopped(reqUser.getIsStopped());
         return user;
+    }
+
+    /*
+     * レコード1件取得
+     */
+    public UserForm editUser(int id) {
+        List<User> results = new ArrayList<>();
+        results.add(userRepository.findById(id).orElse(null));
+        if(results.get(0) != null){
+            List<UserForm> users = setUserForm(results);
+            return users.get(0);
+        }else{
+            return null;
+        }
+    }
+
+    /*
+     * DBから取得したデータをFormに設定
+     */
+    private List<UserForm> setUserForm(List<User> results) {
+        List<UserForm> users = new ArrayList<>();
+
+        for (int i = 0; i < results.size(); i++) {
+            UserForm user = new UserForm();
+            User result = results.get(i);
+            user.setId(result.getId());
+            user.setAccount(result.getAccount());
+            user.setPassword(result.getPassword());
+            user.setName(result.getName());
+            user.setBranchId(result.getBranchId());
+            user.setDepartmentId(result.getDepartmentId());
+            user.setIsStopped(result.getIsStopped());
+            user.setCreatedDate(result.getCreatedDate());
+            user.setUpdatedDate(result.getUpdatedDate());
+            users.add(user);
+        }
+        return users;
     }
 }

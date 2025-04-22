@@ -13,14 +13,18 @@
     <a th:href="@{/}">ホーム</a>
     <a th:href="@{/signup}">ユーザー登録</a>
 </div>
-<table border="1" style="border-collapse: collapse">
-    <tr>
-        <th>アカウント名</th>
-        <th>氏名</th>
-        <th>ユーザー停止状態</th>
-        <th>支社名</th>
-        <th>部署名</th>
-    </tr>
+<div class="main-contents">
+    <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
+        <span th:text="${errorMessage}"></span>
+    </div>
+    <table border="1" style="border-collapse: collapse">
+        <tr>
+            <th>アカウント名</th>
+            <th>氏名</th>
+            <th>ユーザー停止状態</th>
+            <th>支社名</th>
+            <th>部署名</th>
+        </tr>
         <tr class="user-icon" th:each="user : ${users}">
             <td th:text="${user.account}"></td>
             <td th:text="${user.name}"></td>
@@ -38,8 +42,13 @@
             </td>
             <td th:text="${user.branchName}"></td>
             <td th:text="${user.departmentName}"></td>
+            <td class="edit-button">
+                <a th:href="@{/user/edit/{id}(id=${user.id})}">
+                    <input type="button" value="編集">
+                </a>
+            </td>
         </tr>
-    </div>
-</table>
+    </table>
+</div>
 </body>
 </html>

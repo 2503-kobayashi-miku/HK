@@ -6,8 +6,8 @@ import com.example.HK.dto.UserComment;
 import com.example.HK.dto.UserMessage;
 import com.example.HK.security.details.LoginUserDetails;
 import com.example.HK.service.*;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.http.HttpServletRequest;import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,8 +39,6 @@ public class HKController {
     BranchService branchService;
     @Autowired
     DepartmentService departmentService;
-    @Autowired
-    HttpSession session;
 
 
     /*
@@ -202,9 +201,12 @@ public class HKController {
      * ユーザー登録画面表示処理
      */
     @GetMapping("/signup")
-    public ModelAndView signupView(@ModelAttribute("formModel") UserForm userForm) {
+    public ModelAndView signupView(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
-        if(userForm == null) {
+        UserForm userForm;
+        if(RequestContextUtils.getInputFlashMap(request) != null) {
+            userForm = (UserForm) RequestContextUtils.getInputFlashMap(request).get("formModel");
+        } else {
             // form用の空のentityを準備
             userForm = new UserForm();
         }
@@ -250,6 +252,80 @@ public class HKController {
             return new ModelAndView("redirect:/signup");
         }
         // ユーザをテーブルに格納
+        userService.saveUser(userForm);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/admin");
+    }
+
+    /*
+     * ユーザ編集画面表示処理
+     */
+    @GetMapping({"/user/edit/", "/user/edit/{id}"})
+    public ModelAndView editUser(@PathVariable(required = false) String id,
+                                 RedirectAttributes redirectAttributes,
+                                 HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        UserForm userForm = null;
+        if(RequestContextUtils.getInputFlashMap(request) != null) {
+            userForm = (UserForm) RequestContextUtils.getInputFlashMap(request).get("formModel");
+        } else {
+            //URLチェック
+            if (!StringUtils.isBlank(id) && id.matches("^[0-9]*$")) {
+                int intId = Integer.parseInt(id);
+                // 編集するユーザを取得
+                userForm = userService.editUser(intId);
+            }
+        }
+
+        if (userForm == null) {
+            redirectAttributes.addFlashAttribute("errorMessages","不正なパラメータが入力されました");
+            return new ModelAndView("redirect:/admin");
+        }
+        // 支社情報を全件取得
+        List<BranchForm> branchDate = branchService.findAllBranch();
+        // 部署情報を全件取得
+        List<DepartmentForm> departmentDate = departmentService.findAllDepartment();
+        // 画面遷移先を指定
+        mav.setViewName("/edit");
+        //  支社データオブジェクトを保管
+        mav.addObject("branches", branchDate);
+        //  部署データオブジェクトを保管
+        mav.addObject("departments", departmentDate);
+        // 編集するユーザをセット
+        mav.addObject("formModel", userForm);
+        return mav;
+    }
+
+    /*
+     * ユーザ編集処理
+     */
+    @PutMapping("/user/update/{id}")
+    public ModelAndView updateUser(@PathVariable Integer id,
+                                   @ModelAttribute("formModel") @Validated UserForm userForm,
+                                   BindingResult result,
+                                   RedirectAttributes redirectAttributes) {
+        // UrlParameterのidを更新するentityにセット
+        userForm.setId(id);
+        List<String> errorMessages = new ArrayList<>();
+        if (result.hasErrors()) {
+            for (FieldError error : result.getFieldErrors()) {
+                errorMessages.add(error.getDefaultMessage());
+            }
+        }
+        // パスワードと確認用パスワードの一致チェック
+        if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
+            errorMessages.add("パスワードと確認用パスワードが一致しません");
+        }
+        // アカウント重複チェック
+        if (userService.existsUserByAccountAndIdNot(userForm.getAccount(),userForm.getId())) {
+            errorMessages.add("アカウントが重複しています");
+        }
+        if(!errorMessages.isEmpty()){
+            redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
+            redirectAttributes.addFlashAttribute("formModel", userForm);
+            return new ModelAndView("redirect:/user/edit/" + id);
+        }
+        // 編集したユーザを更新
         userService.saveUser(userForm);
         // rootへリダイレクト
         return new ModelAndView("redirect:/admin");
