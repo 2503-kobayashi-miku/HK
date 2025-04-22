@@ -11,8 +11,12 @@ import com.example.HK.service.MessageService;
 import com.example.HK.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -35,13 +39,14 @@ public class HKController {
     @Autowired
     HttpSession session;
 
+
     /*
      * ホーム画面表示処理
      */
     @GetMapping
     public ModelAndView top(@RequestParam(name = "start", required = false) LocalDate start,
-                            @RequestParam (name = "end", required = false) LocalDate end,
-                            @RequestParam (name = "category", required = false) String category,
+                            @RequestParam(name = "end", required = false) LocalDate end,
+                            @RequestParam(name = "category", required = false) String category,
                             @AuthenticationPrincipal LoginUserDetails loginUser) {
         ModelAndView mav = new ModelAndView();
         // commentForm用の空のentityを準備
@@ -153,7 +158,15 @@ public class HKController {
      * ログイン画面表示処理
      */
     @GetMapping("/toLogin")
-    public ModelAndView loginView() {
+    public ModelAndView loginView(RedirectAttributes redirectAttributes) {
+
+        if (session.getAttribute("errorMessages") != null) {
+            redirectAttributes.addFlashAttribute("errorMessages", session.getAttribute("errorMessages"));
+            //セッションを削除
+            session.invalidate();
+            return new ModelAndView("redirect:/toLogin");
+        }
+
         ModelAndView mav = new ModelAndView();
         // 画面遷移先を指定
         mav.setViewName("/login");
