@@ -241,6 +241,18 @@ public class HKController {
         if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
             errorMessages.add("パスワードと確認用パスワードが一致しません");
         }
+        // 支社IDと部署IDの妥当性チェック
+        if (userForm.getBranchId() != null && userForm.getDepartmentId() != null) {
+            if (userForm.getBranchId() == 1) {
+                if (userForm.getDepartmentId() != 1 && userForm.getDepartmentId() != 2) {
+                    errorMessages.add("支社と部署の組み合わせが不正です");
+                }
+            } else {
+                if (userForm.getDepartmentId() != 3 && userForm.getDepartmentId() != 4) {
+                    errorMessages.add("支社と部署の組み合わせが不正です");
+                }
+            }
+        }
         // アカウント重複チェック
         if (userService.existsUserByAccount(userForm.getAccount())) {
             errorMessages.add("アカウントが重複しています");
@@ -275,7 +287,6 @@ public class HKController {
                 userForm = userService.editUser(intId);
             }
         }
-
         if (userForm == null) {
             redirectAttributes.addFlashAttribute("errorMessages","不正なパラメータが入力されました");
             return new ModelAndView("redirect:/admin");
@@ -314,6 +325,18 @@ public class HKController {
         // パスワードと確認用パスワードの一致チェック
         if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
             errorMessages.add("パスワードと確認用パスワードが一致しません");
+        }
+        // 支社IDと部署IDの妥当性チェック
+        if (userForm.getBranchId() != null && userForm.getDepartmentId() != null) {
+            if (userForm.getBranchId() == 1) {
+                if (userForm.getDepartmentId() != 1 && userForm.getDepartmentId() != 2) {
+                    errorMessages.add("支社と部署の組み合わせが不正です");
+                }
+            } else {
+                if (userForm.getDepartmentId() != 3 && userForm.getDepartmentId() != 4) {
+                    errorMessages.add("支社と部署の組み合わせが不正です");
+                }
+            }
         }
         // アカウント重複チェック
         if (userService.existsUserByAccountAndIdNot(userForm.getAccount(),userForm.getId())) {
