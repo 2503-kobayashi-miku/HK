@@ -24,7 +24,6 @@ public class SecurityConfig {
                 .formLogin(login -> login // フォーム認証を使う
                         .loginProcessingUrl("/toLogin")//ログイン処理時のパス
                         .loginPage("/toLogin")// ログインページの設定
-                        .failureUrl("/toLogin")
                         .usernameParameter("account")//認証項目のユーザー名をアカウント名に変更
                         .failureHandler(failureHandler) // カスタムハンドラーを設定
                         .defaultSuccessUrl("/") // 認証成功時のデフォルトの遷移先
