@@ -1,4 +1,4 @@
-package com.example.HK.security;
+package com.example.HK.security.authentication;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.ServletException;
@@ -20,7 +20,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
     @Autowired
     HttpSession session;
-
+    /*
+     * ログイン失敗時のエラーメッセージ表示処理
+     */
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
