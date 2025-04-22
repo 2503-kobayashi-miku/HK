@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="styleSheet">
+    <title>ユーザー編集</title>
+</head>
+<body>
+<div class="header-contents">
+    <h1>ユーザー編集</h1>
+</div>
+<div class="main-contents">
+    <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
+        <span th:text="${errorMessage}"></span>
+    </div>
+    <form th:method="put" th:action="@{/user/update/{id}(id=${formModel.id})}" th:object="${formModel}">
+        <div class="form-area">
+            アカウント<br/>
+            <input th:field="*{account}"/><br/>
+            パスワード<br/>
+            <input type="password" th:field="*{password}"/><br/>
+            確認用パスワード<br/>
+            <input type="password" th:field="*{confirmPassword}"/><br/>
+            氏名<br/>
+            <input th:field="*{name}"/><br/>
+            支社<br/>
+            <select th:field="*{branchId}">
+                <option value="">--</option>
+                <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}"></option>
+            </select><br/>
+            部署<br/>
+            <select th:field="*{departmentId}">
+                <option value="">--</option>
+                <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}"></option>
+            </select><br/>
+            <input type="hidden" th:field="*{isStopped}"/>
+            <input type="submit" value="更新"/>
+        </div>
+    </form>
+</div>
+<div class="footer-contents">
+    <a th:href="@{/admin}">戻る</a>
+</div>
+</body>
+</html>
