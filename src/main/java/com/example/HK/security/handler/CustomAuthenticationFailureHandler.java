@@ -38,6 +38,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             errorMessages.add("ログインに失敗しました");
         }
         session.setAttribute("errorMessages", errorMessages);
+        session.setAttribute("account", request.getParameter("account"));
         // エラーメッセージをログイン画面に渡すクエリパラメータを追加してリダイレクト
         response.sendRedirect(request.getContextPath() + "/toLogin");
     }

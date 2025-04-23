@@ -28,6 +28,8 @@ public class LoginUserDetails implements UserDetails {
 
     public int getUserId(){return user.getId(); }
 
+    public int getDepartmentId(){return user.getDepartmentId(); }
+
     public String getAccount(){
         return user.getAccount();
     }

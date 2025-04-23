@@ -30,14 +30,20 @@
             <td th:text="${user.name}"></td>
             <td>
                 <div class="update-isStopped">
-                    <form th:action="@{/update-isStopped/{id}(id=${user.id})}" th:method="put">
-                        <select name="isStopped">
-                            <option value="0" th:selected="${user.isStopped == 0}">稼働</option>
-                            <option value="1" th:selected="${user.isStopped == 1}">停止</option>
-                        </select>
-                        <input name="userName" th:value="${user.name}" type="hidden">
-                        <input class="update-isStopped-button" type="submit" value="変更">
-                    </form>
+                    <div th:if="${user.id} == ${loginUserId}">
+                        <span th:if="${user.isStopped} == 0">稼働</span>
+                        <span th:if="${user.isStopped} == 1">停止</span>
+                    </div>
+                    <div th:if="${user.id} != ${loginUserId}">
+                        <form th:action="@{/update-isStopped/{id}(id=${user.id})}" th:method="put">
+                            <select name="isStopped">
+                                <option value="0" th:selected="${user.isStopped == 0}">稼働</option>
+                                <option value="1" th:selected="${user.isStopped == 1}">停止</option>
+                            </select>
+                            <input name="userName" th:value="${user.name}" type="hidden">
+                            <input class="update-isStopped-button" type="submit" value="変更">
+                        </form>
+                    </div>
                 </div>
             </td>
             <td th:text="${user.branchName}"></td>

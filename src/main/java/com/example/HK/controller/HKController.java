@@ -78,6 +78,8 @@ public class HKController {
         mav.setViewName("top");
         // ログインユーザーデータオブジェクトを保管
         mav.addObject("loginUserId", loginUser.getUserId());
+        // ログインユーザーの部署IDを保管
+        mav.addObject("loginDepartmentId", loginUser.getDepartmentId());
         // 投稿データオブジェクトを保管
         mav.addObject("messages", messageData);
         // コメントデータオブジェクトを保管
@@ -191,6 +193,7 @@ public class HKController {
 
         if (session.getAttribute("errorMessages") != null) {
             redirectAttributes.addFlashAttribute("errorMessages", session.getAttribute("errorMessages"));
+            redirectAttributes.addFlashAttribute("account", session.getAttribute("account"));
             //セッションを削除
             session.invalidate();
             return new ModelAndView("redirect:/toLogin");
@@ -206,12 +209,14 @@ public class HKController {
      * ユーザー管理画面表示処理
      */
     @GetMapping("/admin")
-    public ModelAndView adminView() {
+    public ModelAndView adminView(@AuthenticationPrincipal LoginUserDetails loginUser) {
         ModelAndView mav = new ModelAndView();
         // 画面遷移先を指定
         mav.setViewName("admin");
         List<UserBranchDepartment> userDate = userService.findUserWithBranchWithDepartment();
         mav.addObject("users", userDate);
+        // ログインユーザーデータオブジェクトを保管
+        mav.addObject("loginUserId", loginUser.getUserId());
         return mav;
     }
 
