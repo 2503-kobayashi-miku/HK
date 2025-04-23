@@ -24,15 +24,27 @@
             氏名<br/>
             <input th:field="*{name}"/><br/>
             支社<br/>
-            <select th:field="*{branchId}">
-                <option value="">--</option>
-                <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}"></option>
-            </select><br/>
+            <div th:if="${formModel.id} == ${loginUser.id}">
+                <span th:each="branch : ${branches}" th:if="${branch.id} == ${formModel.branchId}" th:text="${branch.name}"/>
+            </div>
+            <div th:if="${formModel.id != loginUser.id}">
+                <select th:field="*{branchId}">
+                    <option value="">--</option>
+                    <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}"></option>
+                </select>
+            </div>
+            <br/>
             部署<br/>
-            <select th:field="*{departmentId}">
-                <option value="">--</option>
-                <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}"></option>
-            </select><br/>
+            <div th:if="${formModel.id} == ${loginUser.id}">
+                <span th:each="department : ${departments}" th:if="${department.id} == ${formModel.departmentId}" th:text="${department.name}"/>
+            </div>
+            <div th:if="${formModel.id != loginUser.id}">
+                <select th:field="*{departmentId}">
+                    <option value="">--</option>
+                    <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}"></option>
+                </select>
+            </div>
+            <br/>
             <input type="hidden" th:field="*{isStopped}"/>
             <input type="submit" value="更新"/>
         </div>
