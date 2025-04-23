@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <link th:href="@{/css/style.css}" rel="styleSheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script th:src="@{/js/charCount.js}"></script>
   <title>新規投稿</title>
 </head>
 <body>
@@ -19,6 +21,8 @@
       <input th:field="*{title}"/><br/>
       本文<br/>
       <textarea class="tweet-box" th:field="*{text}" size="20" maxlength="1500"></textarea><br/>
+      <input type="hidden" name="maxLength" value="1000"/>
+      <p class="charCount">0/1000文字</p>
       カテゴリー<br/>
       <input th:field="*{category}"/><br/>
       <input type="submit" value="投稿"/>

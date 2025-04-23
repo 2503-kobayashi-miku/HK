@@ -5,6 +5,7 @@
     <link th:href="@{/css/style.css}" rel="styleSheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script th:src="@{/js/delete.js}"></script>
+    <script th:src="@{/js/charCount.js}"></script>
     <title>TOP</title>
 </head>
 <body>
@@ -86,6 +87,8 @@
                 </div>
                 <input type="hidden" name="messageId" th:value="${message.id}"/>
                 <textarea class="tweet-box" th:field="*{text}" size="20" maxlength="750"></textarea><br/>
+                <input type="hidden" name="maxLength" value="500"/>
+                <p class="charCount">0/500文字</p>
                 <input type="submit" value="投稿"/>
             </div>
         </form>
