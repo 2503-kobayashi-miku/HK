@@ -39,6 +39,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         }
         session.setAttribute("errorMessages", errorMessages);
         // エラーメッセージをログイン画面に渡すクエリパラメータを追加してリダイレクト
-        response.sendRedirect("/toLogin");
+        response.sendRedirect(request.getContextPath() + "/toLogin");
     }
 }

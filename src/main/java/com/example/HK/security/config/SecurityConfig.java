@@ -39,7 +39,7 @@ public class SecurityConfig {
                         //ログイン無しでアクセスOK
                         .requestMatchers("/toLogin").permitAll()
                         .requestMatchers("/css/*").permitAll()
-                        .requestMatchers("/admin", "/update-isStopped/{id}", "/signup", "/user/*").hasRole("1")
+                        .requestMatchers("/admin", "/update-isStopped/{id}", "/signup", "/user/edit/{id}").hasRole("1")
                         .anyRequest().authenticated())
                 //ログアウト処理
                 .logout((logout) -> logout

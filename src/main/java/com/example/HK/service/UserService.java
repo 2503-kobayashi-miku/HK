@@ -56,7 +56,7 @@ public class UserService {
     }
 
     /*
-     * アカウント重複チェック(登録)
+     * アカウント重複チェック(編集)
      */
     public boolean existsUserByAccountAndIdNot(String account, int id) {
         return userRepository.existsByAccountAndIdNot(account, id);
@@ -77,7 +77,11 @@ public class UserService {
         User user = new User();
         user.setId(reqUser.getId());
         user.setAccount(reqUser.getAccount());
-        user.setPassword(passwordEncoder.encode(reqUser.getPassword()));
+        if(!reqUser.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(reqUser.getPassword()));
+        } else {
+            user.setPassword(editUser(reqUser.getId()).getPassword());
+        }
         user.setName(reqUser.getName());
         user.setBranchId(reqUser.getBranchId());
         user.setDepartmentId(reqUser.getDepartmentId());

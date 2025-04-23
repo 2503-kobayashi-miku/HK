@@ -26,7 +26,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         errorMessages.add("無効なアクセスです");
         session.setAttribute("errorMessages", errorMessages);
         // エラーメッセージをホーム画面に渡すクエリパラメータを追加してリダイレクト
-        response.sendRedirect("/");
+        response.sendRedirect(request.getContextPath());
     }
 
 }

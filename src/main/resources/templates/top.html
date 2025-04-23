@@ -13,7 +13,7 @@
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="ログアウト" />
     </form>
-    <a href="/admin">
+    <a th:href="@{/admin}">
         <button class="admin-button" type="button">ユーザー管理</button>
     </a>
 </div>
@@ -21,17 +21,17 @@
     <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
         <span th:text="${errorMessage}"></span>
     </div>
-    <a href="/new">
+    <a th:href="@{/new}">
         <button class="new-button" type="button">新規投稿</button>
     </a>
     <div class="filter">
         <form method="get">
             投稿日
-            <input name="start" type="date"/>
+            <input name="start" type="date" th:value="${start}" />
             ～
-            <input name="end" type="date"/>
+            <input name="end" type="date" th:value="${end}"/>
             カテゴリ
-            <input name="category"/>
+            <input name="category" th:value="${category}"/>
             <input type="submit" value="絞込"/>
         </form>
     </div>
@@ -40,7 +40,7 @@
             件名 : <span th:text="${message.title}"/>
         </div>
         <div class="text">
-            本文 : <span th:text="${message.text}"/>
+            本文 : <pre><span th:text="${message.text}"/></pre>
         </div>
         <div class="category">
             カテゴリ : <span th:text="${message.category}"/>
@@ -61,7 +61,7 @@
         </div>
         <div class="comment-icon" th:each="comment : ${comments}" th:if="${comment.messageId} == ${message.id}">
             <div class="text">
-                コメント : <span th:text="${comment.text}"/>
+                コメント : <pre><span th:text="${comment.text}"/></pre>
             </div>
             <div class="date">
                 コメント日時 : <span th:text="${#temporals.format(comment.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
@@ -85,7 +85,7 @@
                     <span th:text="${errorMessage}"></span>
                 </div>
                 <input type="hidden" name="messageId" th:value="${message.id}"/>
-                <textarea class="tweet-box" th:field="*{text}" size="20" maxlength="200"></textarea><br/>
+                <textarea class="tweet-box" th:field="*{text}" size="20" maxlength="750"></textarea><br/>
                 <input type="submit" value="投稿"/>
             </div>
         </form>

@@ -6,6 +6,8 @@ import com.example.HK.dto.UserComment;
 import com.example.HK.dto.UserMessage;
 import com.example.HK.security.details.LoginUserDetails;
 import com.example.HK.service.*;
+import com.example.HK.validation.ValidationGroups.Edit;
+import com.example.HK.validation.ValidationGroups.Signup;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -43,27 +45,37 @@ public class HKController {
     /*
      * ホーム画面表示処理
      */
-    @GetMapping
+    @GetMapping("/")
     public ModelAndView top(@RequestParam(name = "start", required = false) LocalDate start,
                             @RequestParam(name = "end", required = false) LocalDate end,
                             @RequestParam(name = "category", required = false) String category,
                             @AuthenticationPrincipal LoginUserDetails loginUser,
-                            RedirectAttributes redirectAttributes) {
+                            RedirectAttributes redirectAttributes,
+                            HttpServletRequest request) {
         if (session.getAttribute("errorMessages") != null) {
             redirectAttributes.addFlashAttribute("errorMessages", session.getAttribute("errorMessages"));
             //セッションを削除
             session.removeAttribute("errorMessages");
+            // form用の空のentityを準備
+            CommentForm commentForm = new CommentForm();
+            // コメントデータオブジェクトを保管
+            redirectAttributes.addFlashAttribute("formModel", commentForm);
             return new ModelAndView("redirect:/");
         }
         ModelAndView mav = new ModelAndView();
-        // commentForm用の空のentityを準備
-        CommentForm commentForm = new CommentForm();
+        CommentForm commentForm;
+        if(RequestContextUtils.getInputFlashMap(request) != null) {
+            commentForm = (CommentForm) RequestContextUtils.getInputFlashMap(request).get("formModel");
+        } else {
+            // form用の空のentityを準備
+            commentForm = new CommentForm();
+        }
         // 投稿を絞り込み取得(投稿者情報)
         List<UserMessage> messageData = messageService.findMessageWithUserByOrder(start, end, category);
         // コメントを全件取得(コメント者情報)
         List<UserComment> commentData = commentService.findAllCommentWithUser();
         // 画面遷移先を指定
-        mav.setViewName("/top");
+        mav.setViewName("top");
         // ログインユーザーデータオブジェクトを保管
         mav.addObject("loginUserId", loginUser.getUserId());
         // 投稿データオブジェクトを保管
@@ -72,6 +84,9 @@ public class HKController {
         mav.addObject("comments", commentData);
         // 準備した空のcommentFormを保管
         mav.addObject("formModel", commentForm);
+        mav.addObject("start", start);
+        mav.addObject("end", end);
+        mav.addObject("category", category);
         return mav;
     }
 
@@ -79,12 +94,17 @@ public class HKController {
      * 新規投稿画面表示
      */
     @GetMapping("/new")
-    public ModelAndView newMessage() {
+    public ModelAndView newMessage(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
-        // form用の空のentityを準備
-        MessageForm messageForm = new MessageForm();
+        MessageForm messageForm;
+        if(RequestContextUtils.getInputFlashMap(request) != null) {
+            messageForm = (MessageForm) RequestContextUtils.getInputFlashMap(request).get("formModel");
+        } else {
+            // form用の空のentityを準備
+            messageForm = new MessageForm();
+        }
         // 画面遷移先を指定
-        mav.setViewName("/new");
+        mav.setViewName("new");
         // 準備した空のFormを保管
         mav.addObject("formModel", messageForm);
         return mav;
@@ -104,6 +124,7 @@ public class HKController {
                 errorMessages.add(error.getDefaultMessage());
             }
             redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
+            redirectAttributes.addFlashAttribute("formModel", messageForm);
             return new ModelAndView("redirect:/new");
         }
         // ログインユーザーIDを投稿に格納
@@ -140,6 +161,7 @@ public class HKController {
             }
             redirectAttributes.addFlashAttribute("formMessageId", commentForm.getMessageId());
             redirectAttributes.addFlashAttribute("commentErrorMessages", errorMessages);
+            redirectAttributes.addFlashAttribute("formModel", commentForm);
             return new ModelAndView("redirect:/");
         }
         // ログインユーザーIDをコメントに格納
@@ -176,7 +198,7 @@ public class HKController {
 
         ModelAndView mav = new ModelAndView();
         // 画面遷移先を指定
-        mav.setViewName("/login");
+        mav.setViewName("login");
         return mav;
     }
 
@@ -187,7 +209,7 @@ public class HKController {
     public ModelAndView adminView() {
         ModelAndView mav = new ModelAndView();
         // 画面遷移先を指定
-        mav.setViewName("/admin");
+        mav.setViewName("admin");
         List<UserBranchDepartment> userDate = userService.findUserWithBranchWithDepartment();
         mav.addObject("users", userDate);
         return mav;
@@ -221,7 +243,7 @@ public class HKController {
         // 部署情報を全件取得
         List<DepartmentForm> departmentDate = departmentService.findAllDepartment();
         // 画面遷移先を指定
-        mav.setViewName("/signup");
+        mav.setViewName("signup");
         //  支社データオブジェクトを保管
         mav.addObject("branches", branchDate);
         //  部署データオブジェクトを保管
@@ -235,13 +257,25 @@ public class HKController {
      * ユーザ登録処理
      */
     @PostMapping("/user/add")
-    public ModelAndView addUser(@ModelAttribute("formModel") @Validated UserForm userForm,
+    public ModelAndView addUser(@ModelAttribute("formModel") @Validated(Signup.class) UserForm userForm,
                                 BindingResult result,
                                 RedirectAttributes redirectAttributes) {
         List<String> errorMessages = new ArrayList<>();
         if (result.hasErrors()) {
             for (FieldError error : result.getFieldErrors()) {
                 errorMessages.add(error.getDefaultMessage());
+            }
+        }
+        if(!userForm.getAccount().isBlank()) {
+            // アカウントの半角英数字かつ文字数チェック
+            if(!userForm.getAccount().matches("^[a-zA-Z0-9]{6,20}$")) {
+                errorMessages.add("アカウントは半角英数字かつ6文字以上20文字以下で入力してください");
+            }
+        }
+        if(!userForm.getPassword().isBlank()) {
+            // パスワードの半角文字かつ文字数チェック
+            if(!userForm.getPassword().matches("^[!-~]{6,20}$")) {
+                errorMessages.add("パスワードは半角文字かつ6文字以上20文字以下で入力してください");
             }
         }
         // パスワードと確認用パスワードの一致チェック
@@ -280,6 +314,7 @@ public class HKController {
      */
     @GetMapping({"/user/edit/", "/user/edit/{id}"})
     public ModelAndView editUser(@PathVariable(required = false) String id,
+                                 @AuthenticationPrincipal LoginUserDetails loginUser,
                                  RedirectAttributes redirectAttributes,
                                  HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
@@ -303,7 +338,9 @@ public class HKController {
         // 部署情報を全件取得
         List<DepartmentForm> departmentDate = departmentService.findAllDepartment();
         // 画面遷移先を指定
-        mav.setViewName("/edit");
+        mav.setViewName("edit");
+        // ログインユーザーデータオブジェクトを保管
+        mav.addObject("loginUserId", loginUser.getUserId());
         //  支社データオブジェクトを保管
         mav.addObject("branches", branchDate);
         //  部署データオブジェクトを保管
@@ -318,7 +355,7 @@ public class HKController {
      */
     @PutMapping("/user/update/{id}")
     public ModelAndView updateUser(@PathVariable Integer id,
-                                   @ModelAttribute("formModel") @Validated UserForm userForm,
+                                   @ModelAttribute("formModel") @Validated(Edit.class) UserForm userForm,
                                    BindingResult result,
                                    RedirectAttributes redirectAttributes) {
         // UrlParameterのidを更新するentityにセット
@@ -327,6 +364,18 @@ public class HKController {
         if (result.hasErrors()) {
             for (FieldError error : result.getFieldErrors()) {
                 errorMessages.add(error.getDefaultMessage());
+            }
+        }
+        if(!userForm.getAccount().isBlank()) {
+            // アカウントの半角英数字かつ文字数チェック
+            if(!userForm.getAccount().matches("^[a-zA-Z0-9]{6,20}$")) {
+                errorMessages.add("アカウントは半角英数字かつ6文字以上20文字以下で入力してください");
+            }
+        }
+        if(!userForm.getPassword().isBlank()) {
+            // パスワードの半角文字かつ文字数チェック
+            if(!userForm.getPassword().matches("^[!-~]{6,20}$")) {
+            errorMessages.add("パスワードは半角文字かつ6文字以上20文字以下で入力してください");
             }
         }
         // パスワードと確認用パスワードの一致チェック
