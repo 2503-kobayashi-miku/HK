@@ -10,8 +10,9 @@
 <body>
 <div class="header-contents">
     <h1>ユーザー管理</h1>
-    <a th:href="@{/}">ホーム</a>
-    <a th:href="@{/signup}">ユーザー登録</a>
+    <a th:href="@{/signup}">
+        <button class="signup-button" type="button">ユーザー登録</button>
+    </a>
 </div>
 <div class="main-contents">
     <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
@@ -19,17 +20,17 @@
     </div>
     <table border="1" style="border-collapse: collapse">
         <tr>
-            <th>アカウント名</th>
-            <th>氏名</th>
-            <th>ユーザー停止状態</th>
-            <th>支社名</th>
-            <th>部署名</th>
-            <th>編集</th>
+            <th class="table-account">アカウント名</th>
+            <th class="table-name">氏名</th>
+            <th class="table-isStopped">ユーザー停止状態</th>
+            <th class="table-branch-name">支社名</th>
+            <th class="table-department-name">部署名</th>
+            <th class="table-edit">編集</th>
         </tr>
         <tr class="user-icon" th:each="user : ${users}">
-            <td th:text="${user.account}"></td>
-            <td th:text="${user.name}"></td>
-            <td>
+            <td class="table-account" th:text="${user.account}"></td>
+            <td class="table-name" th:text="${user.name}"></td>
+            <td class="table-isStopped">
                 <div class="update-isStopped">
                     <div th:if="${user.id} == ${loginUserId}">
                         <span th:if="${user.isStopped} == 0">稼働</span>
@@ -47,15 +48,18 @@
                     </div>
                 </div>
             </td>
-            <td th:text="${user.branchName}"></td>
-            <td th:text="${user.departmentName}"></td>
-            <td class="edit-button">
+            <td class="table-branch-name" th:text="${user.branchName}"></td>
+            <td class="table-department-name" th:text="${user.departmentName}"></td>
+            <td class="table-edit edit-button">
                 <a th:href="@{/user/edit/{id}(id=${user.id})}">
                     <input type="button" value="編集">
                 </a>
             </td>
         </tr>
     </table>
+</div>
+<div class="footer-contents">
+    <a th:href="@{/}">ホーム</a>
 </div>
 </body>
 </html>
