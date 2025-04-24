@@ -6,6 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script th:src="@{/js/delete.js}"></script>
     <script th:src="@{/js/charCount.js}"></script>
+    <script th:src="@{/js/timeCourse.js}"></script>
     <title>TOP</title>
 </head>
 <body>
@@ -54,7 +55,7 @@
             カテゴリ : <span th:text="${message.category}"/>
         </div>
         <div class="date">
-            投稿日時 : <span th:text="${#temporals.format(message.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
+            投稿日時 : <span class="created-date" th:text="${#temporals.format(message.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
         </div>
         <div class="name">
             投稿者 : <span th:text="${message.name}"/>
@@ -72,7 +73,7 @@
                 コメント : <pre><span th:text="${comment.text}"/></pre>
             </div>
             <div class="date">
-                コメント日時 : <span th:text="${#temporals.format(comment.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
+                コメント日時 : <span class="created-date" th:text="${#temporals.format(comment.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
             </div>
             <div class="name">
                 コメント者 : <span th:text="${comment.name}"/>
