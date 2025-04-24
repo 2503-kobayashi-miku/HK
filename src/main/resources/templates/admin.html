@@ -38,7 +38,7 @@
                     </div>
                     <div th:if="${user.id} != ${loginUserId}">
                         <form th:action="@{/update-isStopped/{id}(id=${user.id})}" th:method="put">
-                            <select name="isStopped">
+                            <select class="select-box" name="isStopped">
                                 <option value="0" th:selected="${user.isStopped == 0}">稼働</option>
                                 <option value="1" th:selected="${user.isStopped == 1}">停止</option>
                             </select>

@@ -16,20 +16,20 @@
     <form method="post" th:action="@{/user/add}" th:object="${formModel}">
         <div class="form-area">
             <label>アカウント</label><br/>
-            <input th:field="*{account}"/><br/>
+            <input class="text-box" th:field="*{account}"/><br/>
             <label>パスワード</label><br/>
-            <input type="password" th:field="*{password}"/><br/>
+            <input class="text-box" type="password" th:field="*{password}"/><br/>
             <label>確認用パスワード</label><br/>
-            <input type="password" th:field="*{confirmPassword}"/><br/>
+            <input  class="text-box" type="password" th:field="*{confirmPassword}"/><br/>
             <label>氏名</label><br/>
-            <input th:field="*{name}"/><br/>
+            <input class="text-box" th:field="*{name}"/><br/>
             <label>支社</label><br/>
-            <select th:field="*{branchId}">
+            <select class="select-box" th:field="*{branchId}">
                 <option value="">--</option>
                 <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}"></option>
             </select><br/>
             <label>部署</label><br/>
-            <select th:field="*{departmentId}">
+            <select class="select-box" th:field="*{departmentId}">
                 <option value="">--</option>
                 <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}"></option>
             </select><br/>

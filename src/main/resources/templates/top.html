@@ -36,11 +36,11 @@
     <div class="filter">
         <form method="get">
             <label>投稿日</label>
-            <input name="start" type="date" th:value="${start}" />
+            <input class="form-box" name="start" type="date" th:value="${start}" />
             <label>～</label>
-            <input name="end" type="date" th:value="${end}"/>
+            <input class="form-box" name="end" type="date" th:value="${end}"/>
             <label>カテゴリ</label>
-            <input name="category" th:value="${category}"/>
+            <input class="form-box" name="category" th:value="${category}"/>
             <input type="submit" value="絞込"/>
         </form>
     </div>

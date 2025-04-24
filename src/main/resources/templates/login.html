@@ -16,12 +16,12 @@
             <span th:text="${errorMessage}"></span>
         </div>
         <div class="login">
-            <label>アカウント名</label>
-            <input type="text" name="account" th:value="${account}">
+            <label>アカウント名</label><br/>
+            <input class="text-box" type="text" name="account" th:value="${account}">
         </div>
         <div class="login">
-            <label>パスワード</label>
-            <input type="password" name="password">
+            <label>パスワード</label><br/>
+            <input class="text-box" type="password" name="password">
         </div>
         <input type="submit" value="ログイン">
     </form>
