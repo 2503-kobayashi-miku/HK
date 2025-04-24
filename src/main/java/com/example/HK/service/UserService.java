@@ -2,6 +2,8 @@ package com.example.HK.service;
 
 import com.example.HK.controller.form.UserForm;
 import com.example.HK.dto.UserBranchDepartment;
+import com.example.HK.dto.UserCommentCount;
+import com.example.HK.dto.UserMessageCount;
 import com.example.HK.repository.UserRepository;
 import com.example.HK.repository.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,5 +126,43 @@ public class UserService {
             users.add(user);
         }
         return users;
+    }
+
+    public List<UserMessageCount> findUserMessageCount() {
+        List<Object[]> results = userRepository.findUserMessageCount();
+        List<UserMessageCount> counts = setUserMessageCount(results);
+        return counts;
+    }
+
+    private List<UserMessageCount> setUserMessageCount(List<Object[]> results) {
+        List<UserMessageCount> counts = new ArrayList<>();
+        for (int i = 0; i < results.size(); i++) {
+            UserMessageCount count = new UserMessageCount();
+            Object[] result = results.get(i);
+            count.setId((int)result[0]);
+            count.setAccount((String) result[1]);
+            count.setCount((Long) result[2]);
+            counts.add(count);
+        }
+        return counts;
+    }
+
+    public List<UserCommentCount> findUserCommentCount() {
+        List<Object[]> results = userRepository.findUserCommentCount();
+        List<UserCommentCount> counts = setUserCommentCount(results);
+        return counts;
+    }
+
+    private List<UserCommentCount> setUserCommentCount(List<Object[]> results) {
+        List<UserCommentCount> counts = new ArrayList<>();
+        for (int i = 0; i < results.size(); i++) {
+            UserCommentCount count = new UserCommentCount();
+            Object[] result = results.get(i);
+            count.setId((int)result[0]);
+            count.setAccount((String) result[1]);
+            count.setCount((Long) result[2]);
+            counts.add(count);
+        }
+        return counts;
     }
 }

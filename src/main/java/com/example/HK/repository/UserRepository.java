@@ -26,4 +26,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public boolean existsByAccount(String account);
 
     public boolean existsByAccountAndIdNot(String account, int id);
+
+    @Query("SELECT u.id, u.account, COUNT(m) FROM User u LEFT JOIN Message m ON u.id = m.userId GROUP BY u.id, u.account")
+    public List<Object[]> findUserMessageCount();
+
+    @Query("SELECT u.id, u.account, COUNT(c) FROM User u LEFT JOIN Comment c ON u.id = c.userId GROUP BY u.id, u.account")
+    public List<Object[]> findUserCommentCount();
 }

@@ -1,6 +1,8 @@
 package com.example.HK.service;
 
 import com.example.HK.controller.form.BranchForm;
+import com.example.HK.dto.BranchCommentCount;
+import com.example.HK.dto.BranchMessageCount;
 import com.example.HK.repository.BranchRepository;
 import com.example.HK.repository.entity.Branch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,43 @@ public class BranchService {
             branches.add(branch);
         }
         return branches;
+    }
+
+    public List<BranchMessageCount> findBranchMessageCount() {
+        List<Object[]> results = branchRepository.findBranchMessageCount();
+        List<BranchMessageCount> counts = setBranchMessageCount(results);
+        return counts;
+    }
+
+    private List<BranchMessageCount> setBranchMessageCount(List<Object[]> results) {
+        List<BranchMessageCount> counts = new ArrayList<>();
+        for (int i = 0; i < results.size(); i++) {
+            BranchMessageCount count = new BranchMessageCount();
+            Object[] result = results.get(i);
+            count.setId((int)result[0]);
+            count.setName((String) result[1]);
+            count.setCount((Long) result[2]);
+            counts.add(count);
+        }
+        return counts;
+    }
+
+    public List<BranchCommentCount> findBranchCommentCount() {
+        List<Object[]> results = branchRepository.findBranchCommentCount();
+        List<BranchCommentCount> counts = setBranchCommentCount(results);
+        return counts;
+    }
+
+    private List<BranchCommentCount> setBranchCommentCount(List<Object[]> results) {
+        List<BranchCommentCount> counts = new ArrayList<>();
+        for (int i = 0; i < results.size(); i++) {
+            BranchCommentCount count = new BranchCommentCount();
+            Object[] result = results.get(i);
+            count.setId((int)result[0]);
+            count.setName((String) result[1]);
+            count.setCount((Long) result[2]);
+            counts.add(count);
+        }
+        return counts;
     }
 }

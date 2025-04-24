@@ -30,6 +30,8 @@ public class LoginUserDetails implements UserDetails {
 
     public int getDepartmentId(){return user.getDepartmentId(); }
 
+    public int getBranchId(){return user.getBranchId(); }
+
     public String getAccount(){
         return user.getAccount();
     }

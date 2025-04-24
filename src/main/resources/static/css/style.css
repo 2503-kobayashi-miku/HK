@@ -1,4 +1,66 @@
+h1 {
+    margin: 0px;
+}
+
 pre {
     white-space: pre-wrap;
     word-wrap: break-word;
+}
+
+textarea {
+    border: 1px solid;
+    padding: 5px;
+    height: 100%;
+    width: calc(100% - 12px);
+}
+
+th {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+td {
+    background-color: #ffffff;
+}
+
+body {
+    margin: 0px;
+}
+
+.header-contents {
+    padding: 10px;
+	background-color: #baccdf;
+}
+
+.main-contents {
+    padding: 20px;
+	background-color: #e6f0fa;
+}
+
+.footer-contents {
+    padding: 10px;
+	background-color: #baccdf;
+}
+
+.errorMessages {
+    color: red;
+}
+
+.message-icon {
+    margin-bottom: 10px;
+    padding: 5px;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+    background-color: #ffffff;
+ }
+
+.comment-icon {
+    margin-top: 5px;
+    border-top: 3px double;
+    border-left: 3px double;
+    padding-left: 2px;
+}
+
+.comment-form {
+    margin-top: 5px;
+    border-top: 1px dashed;
 }

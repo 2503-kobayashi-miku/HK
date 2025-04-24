@@ -19,6 +19,11 @@
             <button class="admin-button" type="button">ユーザー管理</button>
         </a>
     </div>
+    <div th:if="${loginBranchId} == '1'">
+        <a th:href="@{/summary}">
+            <button class="summary-button" type="button">サマリー</button>
+        </a>
+    </div>
 </div>
 <div class="main-contents">
     <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
@@ -81,14 +86,14 @@
                 </form>
             </div>
         </div>
-        <form method="post" th:action="@{/comment/add}" th:object="${formModel}">
+        <form class="comment-form" method="post" th:action="@{/comment/add}" th:object="${formModel}">
             <div class="form-area">
-                <label>コメント内容</label>
+                <label>コメント内容</label><br/>
                 <div class="errorMessages" th:each="errorMessage : ${commentErrorMessages}" th:if="${formMessageId} == ${message.id}">
                     <span th:text="${errorMessage}"></span>
                 </div>
                 <input type="hidden" name="messageId" th:value="${message.id}"/>
-                <textarea class="tweet-box" th:field="*{text}" size="20" maxlength="750"></textarea><br/>
+                <textarea class="tweet-box" th:field="*{text}" size="20" maxlength="750"></textarea>
                 <input type="hidden" name="maxLength" value="500"/>
                 <p class="charCount">0/500文字</p>
                 <input type="submit" value="投稿"/>

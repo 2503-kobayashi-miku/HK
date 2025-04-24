@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <link th:href="@{/css/style.css}" rel="styleSheet">
+  <title>サマリー</title>
+</head>
+<body>
+<div class="header-contents">
+  <h1>サマリー</h1>
+</div>
+<div class="main-contents">
+  <div class="user-message-count-icon" th:each="userMessageCount : ${userMessageCount}">
+    <div class="account">
+      アカウント名 : <span th:text="${userMessageCount.account}"/>
+    </div>
+    <div class="count">
+      投稿数 : <span th:text="${userMessageCount.count}"/>
+    </div>
+  </div>
+  <div class="user-comment-count-icon" th:each="userCommentCount : ${userCommentCount}">
+    <div class="account">
+      アカウント名 : <span th:text="${userCommentCount.account}"/>
+    </div>
+    <div class="count">
+      コメント数 : <span th:text="${userCommentCount.count}"/>
+    </div>
+  </div>
+  <div class="branch-message-count-icon" th:each="branchMessageCount : ${branchMessageCount}">
+    <div class="name">
+      アカウント名 : <span th:text="${branchMessageCount.name}"/>
+    </div>
+    <div class="count">
+      投稿数 : <span th:text="${branchMessageCount.count}"/>
+    </div>
+  </div>
+  <div class="branch-comment-count-icon" th:each="branchCommentCount : ${branchCommentCount}">
+    <div class="name">
+      アカウント名 : <span th:text="${branchCommentCount.name}"/>
+    </div>
+    <div class="count">
+      コメント数 : <span th:text="${branchCommentCount.count}"/>
+    </div>
+  </div>
+</div>
+<div class="footer-contents">
+  <a th:href="@{/}">戻る</a>
+</div>
+</body>
+</html>

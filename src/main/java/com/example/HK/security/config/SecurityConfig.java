@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/toLogin").permitAll()
                         .requestMatchers("/css/*").permitAll()
                         .requestMatchers("/admin", "/update-isStopped/{id}", "/signup", "/user/edit/{id}").hasRole("1")
+                        .requestMatchers("/summary").hasAnyRole("1", "2")
                         .anyRequest().authenticated())
                 //ログアウト処理
                 .logout((logout) -> logout

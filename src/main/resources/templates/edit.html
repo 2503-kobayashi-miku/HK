@@ -34,7 +34,6 @@
                     <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}"></option>
                 </select>
             </div>
-            <br/>
             部署<br/>
             <div th:if="${formModel.id} == ${loginUserId}">
                 <span th:each="department : ${departments}" th:if="${department.id} == ${formModel.departmentId}" th:text="${department.name}"/>
@@ -46,7 +45,6 @@
                     <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}"></option>
                 </select>
             </div>
-            <br/>
             <input type="hidden" th:field="*{isStopped}"/>
             <input type="submit" value="更新"/>
         </div>

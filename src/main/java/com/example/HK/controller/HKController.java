@@ -1,9 +1,7 @@
 package com.example.HK.controller;
 
 import com.example.HK.controller.form.*;
-import com.example.HK.dto.UserBranchDepartment;
-import com.example.HK.dto.UserComment;
-import com.example.HK.dto.UserMessage;
+import com.example.HK.dto.*;
 import com.example.HK.security.details.LoginUserDetails;
 import com.example.HK.service.*;
 import com.example.HK.validation.ValidationGroups.Edit;
@@ -80,6 +78,8 @@ public class HKController {
         mav.addObject("loginUserId", loginUser.getUserId());
         // ログインユーザーの部署IDを保管
         mav.addObject("loginDepartmentId", loginUser.getDepartmentId());
+        // ログインユーザーの支社IDを保管
+        mav.addObject("loginBranchId", loginUser.getBranchId());
         // 投稿データオブジェクトを保管
         mav.addObject("messages", messageData);
         // コメントデータオブジェクトを保管
@@ -412,5 +412,32 @@ public class HKController {
         userService.saveUser(userForm);
         // rootへリダイレクト
         return new ModelAndView("redirect:/admin");
+    }
+
+    /*
+     * サマリー画面表示処理
+     */
+    @GetMapping("/summary")
+    public ModelAndView summary() {
+        ModelAndView mav = new ModelAndView();
+        // ユーザー毎の投稿数取得(投稿者情報)
+        List<UserMessageCount> userMessageCount = userService.findUserMessageCount();
+        // ユーザー毎の投稿数取得(コメント者情報)
+        List<UserCommentCount> userCommentCount = userService.findUserCommentCount();
+        // ユーザー毎の投稿数取得(投稿者情報)
+        List<BranchMessageCount> branchMessageCount = branchService.findBranchMessageCount();
+        // ユーザー毎の投稿数取得(コメント者情報)
+        List<BranchCommentCount> branchCommentCount = branchService.findBranchCommentCount();
+        // 画面遷移先を指定
+        mav.setViewName("summary");
+        // ユーザー毎の投稿数データオブジェクトを保管
+        mav.addObject("userMessageCount", userMessageCount);
+        // ユーザー毎のコメント数データオブジェクトを保管
+        mav.addObject("userCommentCount", userCommentCount);
+        // ユーザー毎の投稿数データオブジェクトを保管
+        mav.addObject("branchMessageCount", branchMessageCount);
+        // ユーザー毎のコメント数データオブジェクトを保管
+        mav.addObject("branchCommentCount", branchCommentCount);
+        return mav;
     }
 }
