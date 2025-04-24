@@ -21,6 +21,10 @@ textarea {
     resize: none;
 }
 
+label {
+    font-weight: bold;
+}
+
 th {
     text-align: center;
     vertical-align: middle;

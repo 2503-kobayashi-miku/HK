@@ -35,30 +35,30 @@
     </a>
     <div class="filter">
         <form method="get">
-            投稿日
+            <label>投稿日</label>
             <input name="start" type="date" th:value="${start}" />
-            ～
+            <label>～</label>
             <input name="end" type="date" th:value="${end}"/>
-            カテゴリ
+            <label>カテゴリ</label>
             <input name="category" th:value="${category}"/>
             <input type="submit" value="絞込"/>
         </form>
     </div>
     <div class="message-icon" th:each="message : ${messages}">
         <div class="title">
-            件名 : <span th:text="${message.title}"/>
+            <label>件名 : </label><span th:text="${message.title}"/>
         </div>
         <div class="text">
-            本文 : <pre><span th:text="${message.text}"/></pre>
+            <label>本文 : </label><pre><span th:text="${message.text}"/></pre>
         </div>
         <div class="category">
-            カテゴリ : <span th:text="${message.category}"/>
+            <label>カテゴリ : </label><span th:text="${message.category}"/>
         </div>
         <div class="date">
-            投稿日時 : <span class="created-date" th:text="${#temporals.format(message.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
+            <label>投稿日時 : </label><span class="created-date" th:text="${#temporals.format(message.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
         </div>
         <div class="name">
-            投稿者 : <span th:text="${message.name}"/>
+            <label>投稿者 : </label><span th:text="${message.name}"/>
             <br/>
         </div>
         <div class="delete-button">
@@ -70,13 +70,13 @@
         </div>
         <div class="comment-icon" th:each="comment : ${comments}" th:if="${comment.messageId} == ${message.id}">
             <div class="text">
-                コメント : <pre><span th:text="${comment.text}"/></pre>
+                <label>コメント : </label><pre><span th:text="${comment.text}"/></pre>
             </div>
             <div class="date">
-                コメント日時 : <span class="created-date" th:text="${#temporals.format(comment.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
+                <label>コメント日時 : </label><span class="created-date" th:text="${#temporals.format(comment.createdDate, 'yyyy/MM/dd HH:mm:ss')}"/>
             </div>
             <div class="name">
-                コメント者 : <span th:text="${comment.name}"/>
+                <label>コメント者 : </label><span th:text="${comment.name}"/>
                 <br/>
             </div>
             <div class="delete-button">

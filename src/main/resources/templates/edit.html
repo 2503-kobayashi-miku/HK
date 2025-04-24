@@ -15,15 +15,15 @@
     </div>
     <form th:method="put" th:action="@{/user/update/{id}(id=${formModel.id})}" th:object="${formModel}">
         <div class="form-area">
-            アカウント<br/>
+            <label>アカウント</label><br/>
             <input th:field="*{account}"/><br/>
-            パスワード<br/>
+            <label>パスワード</label><br/>
             <input type="password" th:field="*{password}"/><br/>
-            確認用パスワード<br/>
+            <label>確認用パスワード</label><br/>
             <input type="password" th:field="*{confirmPassword}"/><br/>
-            氏名<br/>
+            <label>氏名</label><br/>
             <input th:field="*{name}"/><br/>
-            支社<br/>
+            <label>支社</label><br/>
             <div th:if="${formModel.id} == ${loginUserId}">
                 <span th:each="branch : ${branches}" th:if="${branch.id} == ${formModel.branchId}" th:text="${branch.name}"/>
                 <input type="hidden" th:field="*{branchId}"/>
@@ -34,7 +34,7 @@
                     <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}"></option>
                 </select>
             </div>
-            部署<br/>
+            <label>部署</label><br/>
             <div th:if="${formModel.id} == ${loginUserId}">
                 <span th:each="department : ${departments}" th:if="${department.id} == ${formModel.departmentId}" th:text="${department.name}"/>
                 <input type="hidden" th:field="*{departmentId}"/>
