@@ -120,3 +120,15 @@ body {
     width: calc(100% - 12px);
     resize: none;
 }
+
+.logout-button {
+    background-color: #FFABAB;
+}
+
+.delete {
+    background-color: #FFABAB;
+}
+
+.new-button {
+    font-size: 20px;
+}
