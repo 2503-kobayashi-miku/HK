@@ -13,14 +13,6 @@ pre {
     font-family: 'Noto Sans JP';
 }
 
-textarea {
-    border: 1px solid;
-    padding: 5px;
-    height: 100px;
-    width: calc(100% - 12px);
-    resize: none;
-}
-
 label {
     font-weight: bold;
 }
@@ -70,8 +62,7 @@ body {
 
 .comment-icon {
     margin-top: 5px;
-    border-top: 3px double;
-    border-left: 3px double;
+    border-left: 4px double;
     padding-left: 2px;
 }
 
@@ -114,7 +105,7 @@ body {
     width: 500px;
 }
 
-.message-tweet-box {
+.message-tweet {
     border: 1px solid;
     padding: 5px;
     height: 100px;
@@ -122,7 +113,7 @@ body {
     resize: none;
 }
 
-.comment-tweet-box {
+.comment-tweet {
     border: 1px solid;
     padding: 5px;
     height: 100px;

@@ -94,7 +94,7 @@
                     <span th:text="${errorMessage}"></span>
                 </div>
                 <input type="hidden" name="messageId" th:value="${message.id}"/>
-                <textarea class="comment-tweet-box" th:field="*{text}" size="20" maxlength="750"></textarea>
+                <textarea class="comment-tweet tweet-box" th:field="*{text}" size="20" maxlength="750"></textarea>
                 <input type="hidden" name="maxLength" value="500"/>
                 <p class="charCount">0/500文字</p>
                 <input type="submit" value="投稿"/>
