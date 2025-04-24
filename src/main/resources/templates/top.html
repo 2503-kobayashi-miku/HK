@@ -13,7 +13,7 @@
 <div class="header-contents">
     <h1>掲示板</h1>
     <form th:action="@{/logout}" method="post">
-        <input type="submit" value="ログアウト" />
+        <input class="logout-button" type="submit" value="ログアウト" />
     </form>
     <div th:if="${loginDepartmentId} == '1'">
         <a th:href="@{/admin}">

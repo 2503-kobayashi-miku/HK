@@ -10,38 +10,40 @@
   <h1>サマリー</h1>
 </div>
 <div class="main-contents">
-  <div class="user-message-count-icon" th:each="userMessageCount : ${userMessageCount}">
-    <div class="account">
-      アカウント名 : <span th:text="${userMessageCount.account}"/>
-    </div>
-    <div class="count">
-      投稿数 : <span th:text="${userMessageCount.count}"/>
-    </div>
-  </div>
-  <div class="user-comment-count-icon" th:each="userCommentCount : ${userCommentCount}">
-    <div class="account">
-      アカウント名 : <span th:text="${userCommentCount.account}"/>
-    </div>
-    <div class="count">
-      コメント数 : <span th:text="${userCommentCount.count}"/>
-    </div>
-  </div>
-  <div class="branch-message-count-icon" th:each="branchMessageCount : ${branchMessageCount}">
-    <div class="name">
-      アカウント名 : <span th:text="${branchMessageCount.name}"/>
-    </div>
-    <div class="count">
-      投稿数 : <span th:text="${branchMessageCount.count}"/>
-    </div>
-  </div>
-  <div class="branch-comment-count-icon" th:each="branchCommentCount : ${branchCommentCount}">
-    <div class="name">
-      アカウント名 : <span th:text="${branchCommentCount.name}"/>
-    </div>
-    <div class="count">
-      コメント数 : <span th:text="${branchCommentCount.count}"/>
-    </div>
-  </div>
+  <label>アカウント毎集計</label>
+  <table border="1" style="border-collapse: collapse">
+    <tr>
+      <th class="table-account">アカウント名</th>
+      <th class="table-count">投稿数</th>
+      <th class="table-count">コメント数</th>
+    </tr>
+    <tr th:each="userMessageCount : ${userMessageCount}">
+      <td class="table-account" th:text="${userMessageCount.account}"></td>
+      <td class="table-count" th:text="${userMessageCount.count}"></td>
+      <td class="table-count">
+        <span th:each="userCommentCount : ${userCommentCount}"
+              th:if="${userCommentCount.account.equals(userMessageCount.account)}"
+              th:text="${userCommentCount.count}"></span>
+      </td>
+    </tr>
+  </table>
+  <label>支社毎集計</label>
+  <table border="1" style="border-collapse: collapse">
+    <tr>
+      <th class="table-branch-name">支社名</th>
+      <th class="table-count">投稿数</th>
+      <th class="table-count">コメント数</th>
+    </tr>
+    <tr th:each="branchMessageCount : ${branchMessageCount}">
+      <td class="table-branch-name" th:text="${branchMessageCount.name}"></td>
+      <td class="table-count" th:text="${branchMessageCount.count}"></td>
+      <td class="table-count">
+        <span th:each="branchCommentCount : ${branchCommentCount}"
+              th:if="${branchCommentCount.name.equals(branchMessageCount.name)}"
+              th:text="${branchCommentCount.count}"></span>
+      </td>
+    </tr>
+  </table>
 </div>
 <div class="footer-contents">
   <a th:href="@{/}">戻る</a>

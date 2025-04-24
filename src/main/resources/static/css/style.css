@@ -15,11 +15,15 @@ textarea {
 }
 
 th {
+    text-align: center;
+    vertical-align: middle;
     color: #ffffff;
     background-color: #000000;
 }
 
 td {
+    text-align: center;
+    vertical-align: middle;
     background-color: #ffffff;
 }
 
@@ -28,7 +32,7 @@ body {
 }
 
 .header-contents {
-    padding: 10px;
+    padding: 20px;
 	background-color: #baccdf;
 }
 
@@ -38,7 +42,7 @@ body {
 }
 
 .footer-contents {
-    padding: 10px;
+    padding: 20px;
 	background-color: #baccdf;
 }
 
@@ -63,4 +67,32 @@ body {
 .comment-form {
     margin-top: 5px;
     border-top: 1px dashed;
+}
+
+.table-account {
+    min-width: 110px;
+}
+
+.table-name {
+    min-width: 110px;
+}
+
+.table-isStopped {
+    min-width: 110px;
+}
+
+.table-branch-name {
+    min-width: 110px;
+}
+
+.table-department-name {
+    min-width: 110px;
+}
+
+.table-edit {
+    min-width: 45px;
+}
+
+.table-count {
+    min-width: 90px;
 }
