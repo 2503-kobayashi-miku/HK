@@ -2,6 +2,10 @@ h1 {
     margin: 0px;
 }
 
+p {
+    margin: 0px;
+}
+
 pre {
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -98,4 +102,26 @@ body {
 
 .table-count {
     min-width: 90px;
+}
+
+.text-box {
+    border: 1px solid;
+    padding: 5px;
+    width: 500px;
+}
+
+.message-tweet-box {
+    border: 1px solid;
+    padding: 5px;
+    height: 100px;
+    width: 500px;
+    resize: none;
+}
+
+.comment-tweet-box {
+    border: 1px solid;
+    padding: 5px;
+    height: 100px;
+    width: calc(100% - 12px);
+    resize: none;
 }

@@ -18,13 +18,13 @@
   <form method="post" th:action="@{/message/add}" th:object="${formModel}">
     <div class="form-area">
       件名<br/>
-      <input th:field="*{title}"/><br/>
+      <input class="text-box" th:field="*{title}"/><br/>
       本文<br/>
-      <textarea class="tweet-box" th:field="*{text}" size="20" maxlength="1500"></textarea><br/>
+      <textarea class="message-tweet-box" th:field="*{text}" size="20" maxlength="1500"></textarea><br/>
       <input type="hidden" name="maxLength" value="1000"/>
       <p class="charCount">0/1000文字</p>
       カテゴリー<br/>
-      <input th:field="*{category}"/><br/>
+      <input class="text-box" th:field="*{category}"/><br/>
       <input type="submit" value="投稿"/>
     </div>
   </form>
