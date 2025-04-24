@@ -148,6 +148,14 @@ body {
     resize: none;
 }
 
+.header-button {
+    margin-top: 5px;
+}
+
+.submit-button {
+    margin-top: 10px;
+}
+
 .logout-button {
     background-color: #FFABAB;
 }

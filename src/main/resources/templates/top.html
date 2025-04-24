@@ -13,16 +13,16 @@
 <div class="header-contents">
     <h1>掲示板</h1>
     <form th:action="@{/logout}" method="post">
-        <input class="logout-button" type="submit" value="ログアウト" />
+        <input class="logout-button header-button" type="submit" value="ログアウト" />
     </form>
     <div th:if="${loginDepartmentId} == '1'">
         <a th:href="@{/admin}">
-            <button class="admin-button" type="button">ユーザー管理</button>
+            <button class="admin-button header-button" type="button">ユーザー管理</button>
         </a>
     </div>
     <div th:if="${loginBranchId} == '1'">
         <a th:href="@{/summary}">
-            <button class="summary-button" type="button">サマリー</button>
+            <button class="summary-button header-button" type="button">サマリー</button>
         </a>
     </div>
 </div>
